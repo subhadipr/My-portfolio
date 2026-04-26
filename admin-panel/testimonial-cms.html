@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Testimonial CMS | Admin</title>
+
+<link rel="stylesheet" href="assets/css/testimonial-cms.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+
+        <h2 class="logo">SR Admin</h2>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="leads.html">Leads</a>
+            <a href="student-orders.html">Student Orders</a>
+            <a href="projects-cms.html">Projects CMS</a>
+            <a href="blog-cms.html">Blog CMS</a>
+            <a href="testimonial-cms.html" class="active">Testimonials</a>
+        </nav>
+
+    </aside>
+
+
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+
+        <!-- PAGE TITLE -->
+        <header class="topbar">
+            <h1>Testimonial CMS</h1>
+        </header>
+
+
+        <!-- ADD TESTIMONIAL FORM -->
+        <section class="form-section">
+
+            <h2>Add Testimonial</h2>
+
+            <form class="testimonial-form">
+
+                <input type="text" placeholder="Client Name">
+
+                <input type="text" placeholder="Company Name">
+
+                <textarea placeholder="Client Review"></textarea>
+
+                <select>
+                    <option>Select Rating</option>
+                    <option>5 Star</option>
+                    <option>4 Star</option>
+                    <option>3 Star</option>
+                </select>
+
+                <input type="file">
+
+                <button type="submit">Add Testimonial</button>
+
+            </form>
+
+        </section>
+
+
+        <!-- TESTIMONIAL TABLE -->
+        <section class="table-section">
+
+            <h2>All Testimonials</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Company</th>
+                        <th>Rating</th>
+                        <th>Review</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Amit Kumar</td>
+                        <td>Tech Pvt Ltd</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>Excellent Developer</td>
+                        <td>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+ <script src="assets/js/testimonial-cms.js"></script>
+
+</body>
+</html>

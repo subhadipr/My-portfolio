@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard | Subhadip Portfolio</title>
+
+<link rel="stylesheet" href="assets/css/dashboard.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ===== SIDEBAR ===== -->
+
+    <aside class="sidebar">
+
+        <h2 class="logo">SR Admin</h2>
+
+        <nav>
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="leads.html">Leads</a>
+            <a href="student-orders.html">Student Orders</a>
+            <a href="projects-cms.html">Projects CMS</a>
+            <a href="blog-cms.html">Blog CMS</a>
+            <a href="testimonial-cms.html">Testimonials</a>
+        </nav>
+
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <h1>Dashboard</h1>
+
+            <div style="display:flex; gap:15px; align-items:center;">
+
+                <div class="admin-profile">
+                    <span>Admin</span>
+                </div>
+
+                <!-- LOGOUT BUTTON -->
+                <button class="logout-btn">Logout</button>
+
+            </div>
+
+        </header>
+
+        <!-- WELCOME -->
+        <section class="welcome">
+            <h2>Welcome Back, Subhadip 👋</h2>
+            <p>Here is your portfolio business overview</p>
+        </section>
+
+        <!-- STATS -->
+        <section class="stats">
+
+            <div class="card">
+                <h3>Total Leads</h3>
+                <p>120</p>
+            </div>
+
+            <div class="card">
+                <h3>Projects</h3>
+                <p>35</p>
+            </div>
+
+            <div class="card">
+                <h3>Student Orders</h3>
+                <p>18</p>
+            </div>
+
+            <div class="card">
+                <h3>Blogs</h3>
+                <p>22</p>
+            </div>
+
+        </section>
+
+        <!-- RECENT TABLE -->
+        <section class="recent">
+
+            <h2>Recent Leads</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Project</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Test User</td>
+                        <td>test@mail.com</td>
+                        <td>Portfolio</td>
+                        <td class="status new">New</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- COMPONENT JS -->
+<script src="components/sidebar.js"></script>
+<script src="components/header.js"></script>
+<script src="assets/js/dashboard.js"></script>
+
+
+</body>
+</html>

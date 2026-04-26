@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Leads Manager | Admin</title>
+
+<link rel="stylesheet" href="assets/css/leads.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+
+        <h2 class="logo">SR Admin</h2>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="leads.html" class="active">Leads</a>
+            <a href="student-orders.html">Student Orders</a>
+            <a href="projects-cms.html">Projects CMS</a>
+            <a href="blog-cms.html">Blog CMS</a>
+            <a href="testimonial-cms.html">Testimonials</a>
+        </nav>
+
+    </aside>
+
+
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <h1>Leads Manager</h1>
+
+            <input type="text" placeholder="Search Leads..." class="search">
+        </header>
+
+
+        <!-- TABLE -->
+        <section class="table-section">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Project</th>
+                        <th>Budget</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Test User</td>
+                        <td>test@mail.com</td>
+                        <td>9999999999</td>
+                        <td>Portfolio</td>
+                        <td>₹5000</td>
+                        <td><span class="status new">New</span></td>
+                        <td>
+                            <button class="view">View</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+   <script src="assets/js/leads.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Orders | Admin</title>
+
+<link rel="stylesheet" href="assets/css/student-orders.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+
+        <h2 class="logo">SR Admin</h2>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="leads.html">Leads</a>
+            <a href="student-orders.html" class="active">Student Orders</a>
+            <a href="projects-cms.html">Projects CMS</a>
+            <a href="blog-cms.html">Blog CMS</a>
+            <a href="testimonial-cms.html">Testimonials</a>
+        </nav>
+
+    </aside>
+
+
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <h1>Student Orders</h1>
+
+            <input type="text" placeholder="Search Orders..." class="search">
+        </header>
+
+
+        <!-- TABLE -->
+        <section class="table-section">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Email</th>
+                        <th>College</th>
+                        <th>Project</th>
+                        <th>Deadline</th>
+                        <th>Budget</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Rahul Sharma</td>
+                        <td>rahul@mail.com</td>
+                        <td>ABC Engineering College</td>
+                        <td>MERN Project</td>
+                        <td>15 Feb 2026</td>
+                        <td>₹8000</td>
+                        <td><span class="status new">New</span></td>
+                        <td>
+                            <button class="update">Update</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+ <script src="assets/js/student-orders.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Blog CMS | Admin</title>
+
+<link rel="stylesheet" href="assets/css/blog-cms.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+
+        <h2 class="logo">SR Admin</h2>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="leads.html">Leads</a>
+            <a href="student-orders.html">Student Orders</a>
+            <a href="projects-cms.html">Projects CMS</a>
+            <a href="blog-cms.html" class="active">Blog CMS</a>
+            <a href="testimonial-cms.html">Testimonials</a>
+        </nav>
+
+    </aside>
+
+
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+
+        <!-- TITLE -->
+        <header class="topbar">
+            <h1>Blog CMS</h1>
+        </header>
+
+
+        <!-- ADD BLOG FORM -->
+        <section class="form-section">
+
+            <h2>Add New Blog</h2>
+
+            <form class="blog-form">
+
+                <input type="text" placeholder="Blog Title">
+
+                <textarea placeholder="Blog Content"></textarea>
+
+                <select>
+                    <option>Select Category</option>
+                    <option>Web Development</option>
+                    <option>Business Website</option>
+                    <option>SEO Tips</option>
+                </select>
+
+                <input type="file">
+
+                <button type="submit">Publish Blog</button>
+
+            </form>
+
+        </section>
+
+
+        <!-- BLOG TABLE -->
+        <section class="table-section">
+
+            <h2>All Blogs</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Why Business Needs Website</td>
+                        <td>Business Website</td>
+                        <td>05 Feb 2026</td>
+                        <td>
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+ 
+<script src="assets/js/blog-cms.js"></script>
+
+</body>
+</html>

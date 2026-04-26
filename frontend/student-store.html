@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pricing | Subhadip Roy</title>
+
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/darkmode.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+
+</head>
+
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<header class="navbar">
+
+    <div class="logo">
+  <img src="assets/icons/svg.png" alt="SR Logo">
+</div>
+     <nav class="nav-menu" id="navMenu">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="services.html">Services</a>
+        <a href="pricing.html" class="active">Pricing</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="nav-right">
+        <div class="status-dot"></div>
+        <button id="darkToggle" class="outline-btn">🌙</button>
+    </div>
+
+    <!-- ⭐ HAMBURGER -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+
+    <div class="hero-wrapper">
+
+        <div class="hero-left">
+
+            <span class="hero-badge">Service Pricing</span>
+
+            <h1>
+                Transparent <span class="gradient-text">Pricing Plans</span>
+            </h1>
+
+            <p class="hero-sub">
+                Simple pricing for websites and web applications.
+            </p>
+
+        </div>
+
+        <div class="hero-right">
+            <img src="assets/images/student page.png" alt="Pricing Plans">
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===== PRICING CARDS ===== -->
+<section class="services-preview">
+
+    <h2>Choose Your Plan</h2>
+
+    <div class="service-grid">
+
+        <!-- STARTER -->
+        <div class="service-card">
+
+            <span class="hero-badge">Starter</span>
+
+            <h3>₹ 5,999</h3>
+
+            <p>Best for small business or personal use.</p>
+
+            <ul style="text-align:left;margin-top:15px;">
+                <li>✔ 3-5 Pages Website</li>
+                <li>✔ BasicUI Design</li>
+                <li>✔ Mobile Responsive</li>
+                <li>✔ Basic SEO Setup</li>
+                <li>✔ Contact Form</li>
+            </ul>
+
+            <button class="primary-btn studentOrderBtn"
+            data-plan="Starter Plan"
+            data-price="5999">
+            Order This Plan
+            </button>
+
+        </div>
+
+        <!-- BUSINESS -->
+        <div class="service-card">
+
+            <span class="hero-badge">Most Popular</span>
+
+            <h3>₹ 14,999</h3>
+
+            <p>Perfect for growing businesses.</p>
+
+            <ul style="text-align:left;margin-top:15px;">
+                <li>✔ 8-12 Pages Website</li>
+                <li>✔ Advanced UI Design</li>
+                <li>✔ Admin Panel</li>
+                <li>✔ Database Integration</li>
+                <li>✔ SEO Optimization</li>
+            </ul>
+
+            <button class="primary-btn studentOrderBtn"
+            data-plan="Business Plan"
+            data-price="14999">
+            Choose Plan
+            </button>
+
+        </div>
+
+        <!-- PREMIUM -->
+        <div class="service-card">
+
+            <span class="hero-badge">Premium</span>
+
+            <h3>₹ 29,999+</h3>
+
+            <p>Custom full stack business solution.</p>
+
+            <ul style="text-align:left;margin-top:15px;">
+                <li>✔ Full Stack Web App</li>
+                <li>✔ Custom Features</li>
+                <li>✔ API Integration</li>
+                <li>✔ Performance Optimization</li>
+                <li>✔ Deployment Support</li>
+            </ul>
+
+            <button class="primary-btn studentOrderBtn"
+            data-plan="Premium Plan"
+            data-price="29999+">
+            Contact Now
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===== CUSTOM QUOTE ===== -->
+<section class="footer-cta-box">
+
+    <h2>Need Custom Pricing?</h2>
+    <p>Every business is different. Let's discuss your project.</p>
+
+    <button class="primary-btn studentOrderBtn"
+    data-plan="Custom Quote"
+    data-price="Custom">
+    Request Custom Quote
+    </button>
+
+</section>
+
+
+
+<!-- ===== STUDENT ORDER MODAL ===== -->
+<div id="studentOrderModal" class="order-modal">
+
+    <div class="order-modal-content">
+
+        <h2>Project Order</h2>
+
+        <form id="studentOrderForm">
+
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+
+            <input type="text" name="plan" id="orderPlan" readonly>
+            <input type="text" name="price" id="orderPrice" readonly>
+
+            <textarea name="message" placeholder="Project Details"></textarea>
+
+            <button type="submit" class="primary-btn">
+                Submit Order
+            </button>
+
+            <button type="button" class="cancel-btn" id="closeOrderModal">
+                Cancel
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ===== SUCCESS POPUP ===== -->
+<div id="successPopup" class="success-popup">
+
+    <div class="success-box">
+
+        <div class="success-icon">✓</div>
+
+        <h2>Order Submitted Successfully</h2>
+
+        <p>Thank you! We will contact you soon.</p>
+
+        <button id="successOkBtn" class="primary-btn">
+            OK
+        </button>
+
+    </div>
+
+</div>
+<!-- ===== FOOTER ===== -->
+<!-- ================= FOOTER PREMIUM ================= -->
+<!-- ================= FOOTER PREMIUM ================= -->
+
+
+    <!-- BOTTOM COPYRIGHT -->
+  <div class="footer-bottom">
+    © 2026 Subhadip Roy. All Rights Reserved.
+  </div>
+
+</footer>
+
+
+
+
+<!-- ===== CHATBOT ===== -->
+<div class="chatbot-float">💬</div>
+
+
+
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/student-order.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/darkmode.js"></script>
+
+</body>
+</html>

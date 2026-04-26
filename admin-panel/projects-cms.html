@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Projects CMS | Admin</title>
+
+<link rel="stylesheet" href="assets/css/projects-cms.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+
+        <h2 class="logo">SR Admin</h2>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="leads.html">Leads</a>
+            <a href="student-orders.html">Student Orders</a>
+            <a href="projects-cms.html" class="active">Projects CMS</a>
+            <a href="blog-cms.html">Blog CMS</a>
+            <a href="testimonial-cms.html">Testimonials</a>
+        </nav>
+
+    </aside>
+
+
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+
+        <!-- PAGE TITLE -->
+        <header class="topbar">
+            <h1>Projects CMS</h1>
+        </header>
+
+
+        <!-- ADD PROJECT FORM -->
+        <section class="form-section">
+
+            <h2>Add New Project</h2>
+
+            <form class="project-form">
+
+                <input type="text" placeholder="Project Title">
+                <textarea placeholder="Project Description"></textarea>
+
+                <input type="text" placeholder="Tech Stack (React, Node etc)">
+                <input type="text" placeholder="Live Demo Link">
+                <input type="text" placeholder="GitHub Link">
+
+                <select>
+                    <option>Select Type</option>
+                    <option>Client Project</option>
+                    <option>Personal Project</option>
+                </select>
+
+                <label class="checkbox">
+                    <input type="checkbox">
+                    Featured Project
+                </label>
+
+                <button type="submit">Add Project</button>
+
+            </form>
+
+        </section>
+
+
+        <!-- PROJECT LIST -->
+        <section class="table-section">
+
+            <h2>Project List</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Tech</th>
+                        <th>Featured</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Portfolio Website</td>
+                        <td>Client</td>
+                        <td>MERN</td>
+                        <td><span class="featured">Yes</span></td>
+                        <td>
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="assets/js/projects-cms.js"></script>
+
+</body>
+</html>
