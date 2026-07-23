@@ -1,0 +1,149 @@
+
+/* dashboard  responsive */
+/* ===== COMMON ===== */
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-btn {
+  display: none;
+  font-size: 22px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #020617;
+}
+
+body.dark .menu-btn {
+  color: #f1f5f9;
+}
+
+.theme-btn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===== OVERLAY ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  z-index: 999;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    height: 100%;
+    width: 240px;
+    z-index: 1000;
+    transition: 0.3s; /* 🔥 added */
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  .main {
+    padding: 15px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-name {
+    display: none;
+  }
+}
+
+/* ===== TABLET ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  background: #020617;
+  color: #e2e8f0;
+}
+
+body.dark .dashboard {
+  background: #020617;
+}
+
+body.dark .topbar,
+body.dark .card,
+body.dark .recent {
+  background: #0f172a;
+}
+
+body.dark h1,
+body.dark h2,
+body.dark h3 {
+  color: #f1f5f9;
+}
+
+
+
+body.dark p,
+body.dark td {
+  color: #cbd5e1;
+}
+
+body.dark table th {
+  background: #1e293b;
+}
+
+body.dark table tr:hover {
+  background: #1e293b;
+}
+
+/* 🔥 FINAL FIX */
+.status {
+  user-select: none;
+}
+
+table td * {
+  user-select: text;
+}
+
+
+/* ========================================= */
+/* 📱 MOBILE RESPONSIVE (768px)               */
+/* ========================================= */
+@media (max-width: 768px) {
+    body.dark .topbar {
+        border-radius: 10px;
+    }
+
+    body.dark .table-container {
+        scrollbar-color: #334155 #0f172a;
+    }
+}

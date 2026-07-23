@@ -1,0 +1,258 @@
+/* ==================================
+   SERVICES PAGE CSS
+================================== */
+
+/* HERO */
+.service-hero{
+  min-height:90vh;
+}
+
+.service-hero .hero-right img{
+  max-width:520px;
+}
+
+/* ==================================
+   HERO CONTENT
+================================== */
+
+.service-hero .hero-left h1{
+  max-width:700px;
+}
+
+.service-hero .hero-sub{
+  max-width:650px;
+  line-height:1.8;
+}
+
+/* ==================================
+   SERVICES SECTION
+================================== */
+
+.services-preview h2{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.service-grid{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(280px,1fr));
+
+  gap:30px;
+}
+
+/* ==================================
+   SERVICE CARD
+================================== */
+
+.service-grid .premium-card{
+
+  background:white;
+
+  padding:35px;
+
+  border-radius:24px;
+
+  border:1px solid rgba(220,225,235,.8);
+
+  box-shadow:
+  0 15px 40px rgba(0,0,0,.05);
+
+  transition:.4s ease;
+
+  position:relative;
+  overflow:hidden;
+}
+
+.service-grid .premium-card::before{
+
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:4px;
+
+  background:
+  linear-gradient(
+    90deg,
+    var(--accent),
+    var(--accent2)
+  );
+}
+
+.service-grid .premium-card:hover{
+
+  transform:
+  translateY(-10px);
+
+  box-shadow:
+  0 30px 70px rgba(91,124,255,.18);
+}
+
+.service-grid .premium-card h3{
+
+  margin-bottom:15px;
+
+  font-size:22px;
+
+  background:
+  linear-gradient(
+    90deg,
+    var(--accent),
+    var(--accent2)
+  );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.service-grid .premium-card p{
+
+  line-height:1.7;
+}
+
+/* ==================================
+   PROCESS SECTION
+================================== */
+
+.service-card{
+
+  background:#fff;
+
+  padding:35px;
+
+  border-radius:22px;
+
+  border:1px solid rgba(220,225,235,.8);
+
+  box-shadow:
+  0 15px 40px rgba(0,0,0,.05);
+
+  transition:.35s ease;
+
+  text-align:center;
+
+  position:relative;
+}
+
+.service-card:hover{
+
+  transform:
+  translateY(-8px);
+
+  box-shadow:
+  0 25px 60px rgba(91,124,255,.15);
+}
+
+.service-card h3{
+
+  margin-bottom:12px;
+
+  font-size:20px;
+
+  color:var(--accent);
+}
+
+.service-card p{
+
+  line-height:1.7;
+}
+
+/* ==================================
+   TECH CHIPS
+================================== */
+
+.service-hero .tech-chips{
+  margin-top:25px;
+}
+
+.service-hero .tech-chips span{
+
+  background:#eef2ff;
+
+  color:var(--accent);
+
+  border:none;
+
+  font-weight:500;
+}
+
+/* ==================================
+   CTA SECTION
+================================== */
+
+.footer-cta-box{
+
+  text-align:center;
+}
+
+.footer-cta-box h2{
+
+  margin-bottom:15px;
+}
+
+.footer-cta-box p{
+
+  max-width:650px;
+  margin:auto;
+  margin-bottom:25px;
+}
+
+.footer-cta-btn{
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ==================================
+   ANIMATION
+================================== */
+
+.premium-card,
+.service-card{
+
+  animation:serviceFade .8s ease;
+}
+
+@keyframes serviceFade{
+
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ==================================
+   GLOW EFFECT
+================================== */
+
+.premium-card:hover::after{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+  linear-gradient(
+    120deg,
+    transparent,
+    rgba(91,124,255,.08),
+    transparent
+  );
+
+  pointer-events:none;
+}

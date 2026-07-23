@@ -1,138 +1,228 @@
-/* ===== RESET ===== */
+/* ========================================= */
+/* 📝 TESTIMONIAL CMS COMPLETE STYLES */
+/* ========================================= */
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins, sans-serif;
+/* --- Topbar & Navigation Fix --- */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-/* ===== LAYOUT ===== */
-
-.dashboard{
-display:flex;
-min-height:100vh;
-background:#f1f5f9;
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* ===== SIDEBAR ===== */
-
-.sidebar{
-width:240px;
-background:#0f172a;
-color:white;
-padding:30px 20px;
+.logout-btn {
+    background: #ef4444;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
-.logo{
-margin-bottom:40px;
+.logout-btn:hover {
+    background: #dc2626;
 }
 
-.sidebar nav{
-display:flex;
-flex-direction:column;
-gap:15px;
+.section-header i, 
+.section-header span i,
+.form-section h2 i {
+    color: #38bdf8 !important; 
+    margin-right: 10px;
+    font-size: 1.1em;
 }
 
-.sidebar nav a{
-color:#cbd5e1;
-text-decoration:none;
-padding:10px;
-border-radius:8px;
-transition:.3s;
+
+
+/* --- Form Section Container --- */
+.form-section {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    border: 1px solid #f1f5f9;
 }
 
-.sidebar nav a:hover,
-.sidebar nav a.active{
-background:#1e293b;
-color:white;
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f1f5f9;
 }
 
-/* ===== MAIN ===== */
-
-.main{
-flex:1;
-padding:30px;
+.section-header h2 {
+    font-size: 18px;
+    color: #0f172a;
+    font-weight: 600;
 }
 
-/* ===== FORM ===== */
+/* ============================= */
+/* 🧾 FORM SECTION */
+/* ============================= */
 
-.form-section{
-background:white;
-padding:25px;
-border-radius:14px;
-box-shadow:0 10px 25px rgba(0,0,0,0.05);
-margin-bottom:30px;
+.form-section {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
 }
 
-.testimonial-form{
-display:flex;
-flex-direction:column;
-gap:15px;
+/* --- 🧩 Grid Layout (The Main Fix) --- */
+.testimonial-form .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 30px;
+    margin-bottom: 25px;
+    max-width: 1000px;
 }
 
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+
+/* --- Input Styles --- */
 .testimonial-form input,
-.testimonial-form textarea,
-.testimonial-form select{
-padding:12px;
-border-radius:8px;
-border:1px solid #e2e8f0;
+.testimonial-form select,
+.testimonial-form textarea {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: 14px;
+    box-sizing: border-box;
+    color: #334155;
+    outline: none;
+    transition: 0.3s;
 }
 
-.testimonial-form textarea{
-min-height:120px;
-resize:vertical;
+/* File Input Height Fix */
+.testimonial-form input[type="file"] {
+    padding: 8px;
+    background: #f8fafc;
 }
 
-.testimonial-form button{
-padding:14px;
-background:#2563eb;
-color:white;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:600;
+/* Review Textarea Full Width Fix */
+.full-width {
+    grid-column: span 2;
+    margin-top: 5px;
 }
 
-.testimonial-form button:hover{
-background:#1d4ed8;
+.testimonial-form textarea {
+    min-height: 120px;
+    resize: vertical;
 }
 
-/* ===== TABLE ===== */
-
-.table-section{
-background:white;
-padding:25px;
-border-radius:14px;
-box-shadow:0 10px 25px rgba(0,0,0,0.05);
+/* Input Focus Effect */
+.testimonial-form input:focus,
+.testimonial-form select:focus,
+.testimonial-form textarea:focus {
+    border-color: #38bdf8;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
 }
 
-table{
-width:100%;
-border-collapse:collapse;
+/* --- Primary Button --- */
+.primary-btn {
+    margin-top: 25px; 
+    background: #38bdf8;
+    color: #020617;
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    
 }
 
-table th{
-background:#f8fafc;
-padding:12px;
-text-align:left;
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3);
 }
 
-table td{
-padding:12px;
-border-bottom:1px solid #e2e8f0;
+/* --- 🌙 Dark Mode Compatibility --- */
+body.dark .form-section {
+    background: #0f172a;
+    border: 1px solid #1e293b;
 }
 
-/* ===== BUTTON ===== */
-
-button{
-padding:6px 12px;
-border:none;
-border-radius:8px;
-cursor:pointer;
+body.dark .section-header {
+    border-bottom-color: #1e293b;
 }
 
-.delete{
-background:#ef4444;
-color:white;
+body.dark .section-header h2 {
+    color: #ffffff;
 }
+
+body.dark .input-group label {
+    color: #94a3b8;
+}
+
+body.dark .testimonial-form input,
+body.dark .testimonial-form select,
+body.dark .testimonial-form textarea {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #cbd5e1;
+}
+
+body.dark .testimonial-form input:focus,
+body.dark .testimonial-form textarea:focus {
+    background: #1e293b;
+    border-color: #38bdf8;
+}
+
+/* --- Table & Loading Styling --- */
+.table-section {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #f1f5f9;
+}
+
+body.dark .table-section {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+}
+
+.loading-text {
+    color: #38bdf8;
+    font-weight: 500;
+    padding: 20px;
+    text-align: center;
+}
+
+/* --- 📱 Mobile Responsive --- */
+@media (max-width: 768px) {
+    .testimonial-form .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .full-width {
+        grid-column: span 1;
+    }
+}
+

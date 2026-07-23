@@ -1,0 +1,234 @@
+/* ========================================= */
+/* 🌙 GLOBAL DARK MODE SYSTEM & LAYOUT       */
+/* ========================================= */
+body.dark,
+body.dark .dashboard,
+body.dark .main {
+    background: #020617;
+}
+
+body.dark {
+    color: #e2e8f0;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ========================================= */
+/* 📦 CONTAINERS, CARDS & SECTIONS           */
+/* ========================================= */
+body.dark .topbar,
+body.dark .card,
+body.dark .table-section,
+body.dark .recent,
+body.dark .form-section,
+body.dark .action-bar,
+body.dark .modal-content {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    box-shadow: none;
+}
+
+/* ========================================= */
+/* 📌 SIDEBAR                                */
+/* ========================================= */
+body.dark .sidebar {
+    background: linear-gradient(180deg, #020617, #0f172a);
+    border-right: 1px solid #1e293b;
+}
+
+body.dark .sidebar nav a {
+    color: #94a3b8;
+}
+
+body.dark .sidebar nav a:hover,
+body.dark .sidebar nav a.active {
+    background: #38bdf8;
+    color: #020617;
+}
+
+/* ========================================= */
+/* 📑 TABLES                                 */
+/* ========================================= */
+body.dark table th {
+    background: #1e293b;
+    color: #94a3b8;
+    border-bottom: 1px solid #334155;
+}
+
+body.dark table td {
+    color: #cbd5e1;
+    border-bottom: 1px solid #1e293b;
+    background: transparent;
+}
+
+body.dark table tr:hover,
+body.dark table tr:hover td {
+    background: #1e293b;
+}
+
+body.dark table tr:hover td {
+    color: #ffffff;
+}
+
+/* ========================================= */
+/* 📝 FORMS & INPUTS                         */
+/* ========================================= */
+body.dark input,
+body.dark textarea,
+body.dark select,
+body.dark .search-input,
+body.dark .search-box input {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #e2e8f0;
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+    color: #94a3b8;
+}
+
+body.dark input:focus,
+body.dark textarea:focus,
+body.dark select:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    background: #1e293b;
+}
+
+/* ========================================= */
+/* 🔘 BUTTONS                                */
+/* ========================================= */
+
+/* Primary Action Buttons */
+body.dark .save-btn,
+body.dark .primary-btn,
+body.dark .update,
+body.dark .edit-btn {
+    background: #38bdf8;
+    color: #020617;
+}
+
+body.dark .save-btn:hover,
+body.dark .primary-btn:hover,
+body.dark .update:hover,
+body.dark .edit-btn:hover {
+    opacity: 0.9;
+}
+
+/* Danger / Delete Buttons */
+body.dark .delete-btn,
+body.dark .delete,
+body.dark .logout-btn {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+body.dark .delete-btn:hover,
+body.dark .delete:hover,
+body.dark .logout-btn:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* Outline / Neutral Buttons */
+body.dark .refresh-btn,
+body.dark .refresh-btn-small,
+body.dark .theme-btn,
+body.dark .cancel-btn,
+body.dark .feature-btn {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #cbd5e1;
+}
+
+body.dark .refresh-btn:hover,
+body.dark .refresh-btn-small:hover,
+body.dark .theme-btn:hover,
+body.dark .cancel-btn:hover {
+    background: #334155;
+    color: white;
+}
+
+/* Feature Button Active State */
+body.dark .feature-btn.active {
+    background: rgba(250, 204, 21, 0.12);
+    border-color: #facc15;
+    color: #facc15;
+}
+
+/* ========================================= */
+/* 🏷️ STATUS BADGES & INFOS                 */
+/* ========================================= */
+body.dark .status-new {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+}
+
+body.dark .status-contacted,
+body.dark .status-pending {
+    background: rgba(250, 204, 21, 0.15);
+    color: #facc15;
+}
+
+body.dark .status-converted,
+body.dark .status-completed,
+body.dark .badge-category {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+}
+
+body.dark .status-closed,
+body.dark .status-cancelled {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* ========================================= */
+/* 📋 TYPOGRAPHY & TEXT COLORS               */
+/* ========================================= */
+
+/* Muted Text / Labels */
+body.dark label,
+body.dark .form-group label,
+body.dark .input-group label,
+body.dark .action-info p,
+body.dark .logo-subtitle,
+body.dark .card h3 {
+    color: #94a3b8;
+}
+
+/* Highlighted Headers */
+body.dark .action-info h2,
+body.dark .section-header h2,
+body.dark .form-section h2,
+body.dark .welcome h2,
+body.dark .topbar h1,
+body.dark .topbar h2,
+body.dark .topbar p,
+body.dark .admin-name,
+body.dark .modal-header h2 {
+    color: #ffffff;
+}
+
+/* Card Specific Theme Text */
+body.dark .card p {
+    color: #38bdf8;
+}
+
+/* ========================================= */
+/* 📦 MODAL & UTILITIES                      */
+/* ========================================= */
+body.dark .modal {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+body.dark hr {
+    border-color: #1e293b;
+}
+
+body.dark ::selection {
+    background: #38bdf8;
+    color: #020617;
+}
+

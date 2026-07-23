@@ -12,63 +12,124 @@ async function loadBlogs() {
 
         const blogs = await apiRequest("/blog");
 
-        // Empty Check
-        if (!blogs || blogs.length === 0) {
+        console.log("Blogs:", blogs);
 
-            blogContainer.innerHTML = "";
+        if (!Array.isArray(blogs) || blogs.length === 0) {
+
+            if (featuredBlogContainer) featuredBlogContainer.innerHTML = "";
+
+            if (blogContainer) blogContainer.innerHTML = "";
+
             if (blogEmpty) blogEmpty.style.display = "block";
+
             return;
         }
 
-        // ===== FEATURED BLOG =====
+        if (blogEmpty) blogEmpty.style.display = "none";
+
+        /* ================================
+           FEATURED BLOG
+        ================================= */
+
         const featured = blogs[0];
 
         if (featuredBlogContainer) {
 
             featuredBlogContainer.innerHTML = `
-                <div class="project-card">
+                <div class="premium-card">
+
                     <span class="hero-badge">Featured</span>
+
                     <h3>${featured.title}</h3>
+
                     <p>${featured.excerpt || ""}</p>
+
                     <div class="hero-cta">
-                        <button class="primary-btn">Read Article</button>
+                        <button class="primary-btn">
+                            Read Article
+                        </button>
                     </div>
+
                 </div>
             `;
+        }
+
+        /* ================================
+           ALL BLOGS
+        ================================= */
+
+        if (blogContainer) {
+
+            blogContainer.innerHTML = "";
+
+            const otherBlogs = blogs.slice(1);
+
+            if (otherBlogs.length === 0) {
+
+                blogContainer.innerHTML = `
+                    <div class="premium-card">
+
+                        <h3>No More Articles</h3>
+
+                        <p>More articles will be published soon.</p>
+
+                    </div>
+                `;
+
+            } else {
+
+                otherBlogs.forEach(blog => {
+
+                    blogContainer.innerHTML += `
+                        <div class="premium-card">
+
+                            <span class="hero-badge">
+                                ${blog.category || "Blog"}
+                            </span>
+
+                            <h3>${blog.title}</h3>
+
+                            <p>${blog.excerpt || ""}</p>
+
+                            <div class="hero-cta">
+                                <button class="primary-btn">
+                                    Read More
+                                </button>
+                            </div>
+
+                        </div>
+                    `;
+
+                });
+
+            }
 
         }
 
-        // ===== ALL BLOGS =====
-        blogContainer.innerHTML = "";
+    } catch (error) {
 
-        blogs.slice(1).forEach(blog => {
+        console.error("Blog Load Error:", error);
 
-            blogContainer.innerHTML += `
-                <div class="project-card">
+        if (featuredBlogContainer) {
 
-                    <span class="hero-badge">${blog.category || "Blog"}</span>
+            featuredBlogContainer.innerHTML = `
+                <div class="premium-card">
 
-                    <h3>${blog.title}</h3>
-
-                    <p>${blog.excerpt || ""}</p>
-
-                    <div class="hero-cta">
-                        <button class="primary-btn">Read More</button>
-                    </div>
+                    <h3>Failed To Load Featured Article</h3>
 
                 </div>
             `;
-
-        });
-
-    } catch (error) {
-
-        console.error(error);
+        }
 
         if (blogContainer) {
+
             blogContainer.innerHTML = `
-                <div class="project-card">
+                <div class="premium-card">
+
                     <h3>Failed To Load Blogs</h3>
+
+                    <p>Please try again later.</p>
+
                 </div>
             `;
         }
@@ -77,10 +138,4 @@ async function loadBlogs() {
 
 }
 
-/* ================================= */
-/* ===== PAGE LOAD ================= */
-/* ================================= */
-
-if (blogContainer) {
-    loadBlogs();
-}
+document.addEventListener("DOMContentLoaded", loadBlogs);

@@ -1,111 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Projects CMS | Admin</title>
-
-<link rel="stylesheet" href="assets/css/projects-cms.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects CMS | Admin Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/projects-cms.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/darkmode.css">
+    <link rel="stylesheet" href="assets/css/global.css">
 </head>
-
 <body>
 
 <div class="dashboard">
 
     <!-- ===== SIDEBAR ===== -->
+    <div class="overlay" onclick="closeSidebar()"></div>
     <aside class="sidebar">
-
         <h2 class="logo">SR Admin</h2>
-
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="leads.html">Leads</a>
-            <a href="student-orders.html">Student Orders</a>
-            <a href="projects-cms.html" class="active">Projects CMS</a>
-            <a href="blog-cms.html">Blog CMS</a>
-            <a href="testimonial-cms.html">Testimonials</a>
-        </nav>
-
+       <nav>
+    <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+    <a href="leads.html"><i class="fa-solid fa-address-book"></i> Leads</a>
+    <a href="student-orders.html"><i class="fa-solid fa-graduation-cap"></i> Student Orders</a>
+    <a href="projects-cms.html" class="active"><i class="fa-solid fa-briefcase"></i> Projects CMS</a>
+    <a href="blog-cms.html"><i class="fa-solid fa-newspaper"></i> Blog CMS</a>
+    <a href="testimonial-cms.html"><i class="fa-solid fa-comment-dots"></i> Testimonials</a>
+    <a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</nav>
     </aside>
 
-
-    <!-- ===== MAIN ===== -->
+    <!-- ===== MAIN CONTENT ===== -->
     <main class="main">
 
-        <!-- PAGE TITLE -->
+        <!-- TOPBAR -->
         <header class="topbar">
-            <h1>Projects CMS</h1>
+            <div class="left">
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+                <h1>Projects-cms</h1>
+            </div>
+            <div class="topbar-right">
+                
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+                <span class="admin-name">Admin</span>
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            </div>
         </header>
 
-
-        <!-- ADD PROJECT FORM -->
-        <section class="form-section">
-
+        <!-- ACTION BAR (Heading Info) -->
+        <!-- ACTION BAR -->
+<section class="action-bar">
+    <div class="action-info-wrapper">
+        <div class="action-info">
             <h2>Add New Project</h2>
+            <p>Showcase your latest work in the portfolio section</p>
+        </div>
+        
+        <button class="refresh-btn-small" onclick="loadProjects()">
+            <i class="fa-solid fa-rotate"></i> Refresh
+        </button>
+    </div>
+</section>
+        <!-- ADD PROJECT FORM SECTION -->
+        <section class="form-section">
+            <form id="projectForm" class="project-form">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Project Title</label>
+                        <input type="text" id="title" placeholder="Project Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Project Category</label>
+                        <select id="type">
+                            <option value="">Select Type</option>
+                            <option value="client">Client Project</option>
+                            <option value="personal">Personal Project</option>
+                        </select>
+                    </div>
+                </div>
 
-            <form class="project-form">
+                <div class="form-group">
+                    <label>Project Description</label>
+                    <textarea id="description" placeholder="Write about your project..." required></textarea>
+                </div>
 
-                <input type="text" placeholder="Project Title">
-                <textarea placeholder="Project Description"></textarea>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tech Stack</label>
+                        <input type="text" id="tech" placeholder="React, Node.js, etc.">
+                    </div>
+                    <div class="form-group">
+                        <label>Live Demo Link</label>
+                        <input type="text" id="live" placeholder="https://example.com">
+                    </div>
+                </div>
 
-                <input type="text" placeholder="Tech Stack (React, Node etc)">
-                <input type="text" placeholder="Live Demo Link">
-                <input type="text" placeholder="GitHub Link">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>GitHub Repository</label>
+                        <input type="text" id="github" placeholder="GitHub Link">
+                    </div>
+                    <div class="form-group" style="display: flex; flex-direction: row; align-items: center; gap: 10px; margin-top: 30px;">
+                        <input type="checkbox" id="featured" style="width: auto; margin: 0;">
+                        <label for="featured" class="checkbox">Mark as Featured Project</label>
+                    </div>
+                </div>
 
-                <select>
-                    <option>Select Type</option>
-                    <option>Client Project</option>
-                    <option>Personal Project</option>
-                </select>
-
-                <label class="checkbox">
-                    <input type="checkbox">
-                    Featured Project
-                </label>
-
-                <button type="submit">Add Project</button>
-
+                <button type="submit" class="save-btn">
+                    <i class="fa-solid fa-plus"></i> Add Project
+                </button>
             </form>
-
         </section>
 
-
-        <!-- PROJECT LIST -->
+        <!-- PROJECT LIST TABLE SECTION -->
         <section class="table-section">
-
-            <h2>Project List</h2>
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Type</th>
-                        <th>Tech</th>
-                        <th>Featured</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>Portfolio Website</td>
-                        <td>Client</td>
-                        <td>MERN</td>
-                        <td><span class="featured">Yes</span></td>
-                        <td>
-                            <button class="edit">Edit</button>
-                            <button class="delete">Delete</button>
-                        </td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
+            <div class="action-bar" style="box-shadow: none; border-bottom: 1px solid #f1f5f9; border-radius: 0;">
+                <div class="action-info">
+                    <h2>Project List</h2>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Tech</th>
+                            <th>Featured</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <!-- Dynamic Data -->
+                    <tbody id="projectTable">
+                        <tr>
+                            <td colspan="5" style="text-align:center; padding: 20px;">
+                                ⏳ Loading projects...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
     </main>
@@ -113,6 +153,7 @@
 </div>
 
 <script src="assets/js/projects-cms.js"></script>
+<script src="assets/js/common.js"></script>
 
 </body>
 </html>

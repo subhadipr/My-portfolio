@@ -1,0 +1,120 @@
+/* =========================================
+   GLOBAL BLINKING / CARET FIX
+   Subhadip Portfolio
+========================================= */
+
+/* Remove blinking caret globally */
+html,
+body,
+*{
+    caret-color: transparent !important;
+}
+
+/* Enable caret only inside form fields */
+input,
+textarea,
+select,
+[contenteditable="true"]{
+    caret-color: auto !important;
+    cursor: text !important;
+}
+
+/* Remove focus outlines */
+*:focus{
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Prevent text cursor on normal content */
+body,
+div,
+section,
+article,
+header,
+footer,
+nav,
+main,
+aside,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+img,
+svg,
+.card,
+.premium-card,
+.service-card,
+.featured-card,
+.skills-card,
+.project-card,
+.engineering-card,
+.stat-card,
+.testimonial-card,
+.footer-bottom,
+.footer-brand,
+.footer-links,
+.footer-contact,
+.footer-social{
+    cursor: default !important;
+}
+
+/* Links & Buttons */
+a,
+button,
+.primary-btn,
+.outline-btn,
+.footer-cta-btn,
+.social-icon,
+.chatbot-float,
+.hamburger{
+    cursor: pointer !important;
+}
+
+/* Disable accidental text selection */
+.navbar,
+.logo,
+.hero-badge,
+.tech-chips,
+.stat-card,
+.footer-bottom{
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+/* Remove blinking typing cursor */
+.hero-typing-clean{
+    border-right: none !important;
+}
+
+/* Remove pseudo blinking cursor */
+.hero-typing-clean::after,
+.type-text::after{
+    display: none !important;
+    content: none !important;
+}
+
+/* Fix Chrome focus issue */
+body{
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent blue focus ring */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus{
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Optional */
+img{
+    user-select:none;
+    -webkit-user-drag:none;
+}

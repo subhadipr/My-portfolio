@@ -1,90 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Leads Manager | Admin</title>
-
-<link rel="stylesheet" href="assets/css/leads.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leads Manager | Admin</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons (এটি অবশ্যই থাকতে হবে) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/leads.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/darkmode.css">
+    <link rel="stylesheet" href="assets/css/global.css">
 </head>
-
 <body>
 
 <div class="dashboard">
-
     <!-- ===== SIDEBAR ===== -->
+    <div class="overlay" onclick="closeSidebar()"></div>
     <aside class="sidebar">
-
         <h2 class="logo">SR Admin</h2>
-
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="leads.html" class="active">Leads</a>
-            <a href="student-orders.html">Student Orders</a>
-            <a href="projects-cms.html">Projects CMS</a>
-            <a href="blog-cms.html">Blog CMS</a>
-            <a href="testimonial-cms.html">Testimonials</a>
-        </nav>
-
+    <nav>
+    <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+    <a href="leads.html" class="active"><i class="fa-solid fa-address-book"></i> Leads</a>
+    <a href="student-orders.html"><i class="fa-solid fa-graduation-cap"></i> Student Orders</a>
+    <a href="projects-cms.html"><i class="fa-solid fa-briefcase"></i> Projects CMS</a>
+    <a href="blog-cms.html"><i class="fa-solid fa-newspaper"></i> Blog CMS</a>
+    <a href="testimonial-cms.html"><i class="fa-solid fa-comment-dots"></i> Testimonials</a>
+    <a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</nav>
     </aside>
-
 
     <!-- ===== MAIN ===== -->
     <main class="main">
-
         <!-- TOPBAR -->
         <header class="topbar">
-            <h1>Leads Manager</h1>
-
-            <input type="text" placeholder="Search Leads..." class="search">
+            <div class="left">
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+                <h1>Leads Management</h1>
+            </div>
+            <div class="topbar-right">
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+                <span class="admin-name">Admin</span>
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            </div>
         </header>
 
-
-        <!-- TABLE -->
-        <section class="table-section">
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Project</th>
-                        <th>Budget</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>Test User</td>
-                        <td>test@mail.com</td>
-                        <td>9999999999</td>
-                        <td>Portfolio</td>
-                        <td>₹5000</td>
-                        <td><span class="status new">New</span></td>
-                        <td>
-                            <button class="view">View</button>
-                            <button class="delete">Delete</button>
-                        </td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
+        <!-- 🔍 ACTION BAR (Search & Filters) -->
+        <section class="action-bar">
+            <div class="search-box">
+                <input type="text" id="leadSearch" placeholder="Search by name or email..." onkeyup="filterLeads()">
+            </div>
+            <div class="filters">
+                <select id="statusFilter" onchange="filterLeads()">
+                    <option value="all">All Status</option>
+                    <option value="new">New</option>
+                    <option value="contacted">Contacted</option>
+                    <option value="closed">Closed</option>
+                </select>
+                <button class="refresh-btn" onclick="loadLeads()">🔄 Refresh</button>
+            </div>
         </section>
 
-    </main>
+        <!-- ===== TABLE ===== -->
+        <section class="table-section">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Contact Details</th>
+                            <th>Project</th>
+                            <th>Budget</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>View</th>
+                            <th>REMOVE</th>
 
+                            
+                        </tr>
+                    </thead>
+                    <tbody id="leadTable">
+                        <tr>
+                            <td colspan="7" style="text-align:center;padding: 50px;">⏳ Loading leads...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
 </div>
 
-   <script src="assets/js/leads.js"></script>
+<!-- ===== MODAL (Scroll Fix Included) ===== -->
+<div id="leadModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Lead Information</h2>
+        <hr>
+        <div id="modalBody">
+            <!-- Data dynamically loaded -->
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/common.js"></script>
+<script src="assets/js/leads.js"></script>
 
 </body>
 </html>

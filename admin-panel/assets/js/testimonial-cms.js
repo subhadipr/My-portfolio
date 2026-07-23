@@ -1,39 +1,121 @@
+// ================= CONFIG =================
+
+const API_URL = "http://localhost:5000/api/testimonial";
+const BASE_URL = "http://localhost:5000";
+
 const token = localStorage.getItem("adminToken");
 
-if (!token) window.location.href = "login.html";
+if (!token) {
+    window.location.href = "login.html";
+}
 
-const form = document.querySelector(".testimonial-form");
-const tableBody = document.querySelector("tbody");
+const form = document.getElementById("testimonialForm");
+const tableBody = document.getElementById("testimonialTableBody");
 
-// ================= LOAD TESTIMONIAL =================
+// ================= LOAD TESTIMONIALS =================
 
 async function loadTestimonials() {
 
     try {
 
-        const res = await fetch("http://localhost:5000/api/testimonials");
+        const res = await fetch(API_URL);
         const data = await res.json();
 
         tableBody.innerHTML = "";
 
+        if (!Array.isArray(data) || data.length === 0) {
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="loading-text">
+                        No Testimonials Found
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
         data.forEach(t => {
 
+            let imageUrl = "assets/img/default-user.png";
+
+            if (t.image) {
+
+                if (t.image.startsWith("http")) {
+                    imageUrl = t.image;
+                } else {
+                    imageUrl = `${BASE_URL}/${t.image.replace(/^\/+/, "")}`;
+                }
+
+            }
+
             tableBody.innerHTML += `
-            <tr>
-                <td>${t.clientName}</td>
-                <td>${t.company || "N/A"}</td>
-                <td>${"⭐".repeat(t.rating || 5)}</td>
-                <td>${t.review}</td>
-                <td>
-                    <button onclick="deleteTestimonial('${t._id}')">Delete</button>
-                </td>
-            </tr>
+                <tr>
+
+                    <td>
+                        <div class="client-info">
+
+                            <img
+                                src="${imageUrl}"
+                                alt="${t.clientName}"
+                                onerror="this.src='assets/img/default-user.png'"
+                            >
+
+                            <div>
+                                <div class="client-name">
+                                    ${t.clientName}
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+
+                    <td class="company-name">
+                        ${t.company}
+                    </td>
+
+                    <td>
+                        <div class="rating">
+                            ${"★".repeat(Number(t.rating))}
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="review">
+                            ${t.review}
+                        </div>
+                    </td>
+
+                    <td class="text-center">
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteTestimonial('${t._id}')">
+
+                            <i class="fas fa-trash"></i>
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
             `;
 
         });
 
     } catch (err) {
-        console.log(err);
+
+        console.error(err);
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="5" class="loading-text">
+                    Failed to load testimonials.
+                </td>
+            </tr>
+        `;
     }
 
 }
@@ -44,41 +126,51 @@ form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    const inputs = form.querySelectorAll("input, textarea, select");
+    const formData = new FormData();
 
-    const ratingText = inputs[3].value;
-    let ratingNumber = 5;
+    formData.append("clientName", document.getElementById("clientName").value);
+    formData.append("company", document.getElementById("companyName").value);
+    formData.append("rating", document.getElementById("testimonialRating").value);
+    formData.append("review", document.getElementById("clientReview").value);
 
-    if (ratingText.includes("4")) ratingNumber = 4;
-    if (ratingText.includes("3")) ratingNumber = 3;
+    const image = document.getElementById("clientImageFile").files[0];
 
-    const testimonialData = {
-        clientName: inputs[0].value,
-        company: inputs[1].value,
-        review: inputs[2].value,
-        rating: ratingNumber
-    };
+    if (image) {
+        formData.append("image", image);
+    }
 
     try {
 
-        await fetch("http://localhost:5000/api/testimonials", {
+        const res = await fetch(API_URL, {
 
             method: "POST",
 
             headers: {
-                "Content-Type": "application/json",
                 Authorization: "Bearer " + token
             },
 
-            body: JSON.stringify(testimonialData)
+            body: formData
 
         });
 
+        const data = await res.json();
+
+        if (!res.ok) {
+            return alert(data.message || "Failed to add testimonial.");
+        }
+
+        alert("Testimonial Added Successfully.");
+
         form.reset();
+
         loadTestimonials();
 
     } catch (err) {
-        alert("Add Testimonial Failed");
+
+        console.error(err);
+
+        alert("Server Error.");
+
     }
 
 });
@@ -87,16 +179,40 @@ form.addEventListener("submit", async (e) => {
 
 async function deleteTestimonial(id) {
 
-    if (!confirm("Delete Testimonial?")) return;
+    if (!confirm("Are you sure you want to delete this testimonial?")) {
+        return;
+    }
 
-    await fetch(`http://localhost:5000/api/testimonials/${id}`, {
-        method: "DELETE",
-        headers: {
-            Authorization: "Bearer " + token
+    try {
+
+        const res = await fetch(`${API_URL}/${id}`, {
+
+            method: "DELETE",
+
+            headers: {
+                Authorization: "Bearer " + token
+            }
+
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            return alert(data.message || "Delete failed.");
         }
-    });
 
-    loadTestimonials();
+        alert("Deleted Successfully.");
+
+        loadTestimonials();
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("Server Error.");
+
+    }
+
 }
 
 // ================= INIT =================

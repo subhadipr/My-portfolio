@@ -1,92 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Orders | Admin Dashboard</title>
+    <!-- Font Awesome for Icons (এটি অবশ্যই থাকতে হবে) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<title>Student Orders | Admin</title>
-
-<link rel="stylesheet" href="assets/css/student-orders.css">
-
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/student-orders.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/darkmode.css">
+    <link rel="stylesheet" href="assets/css/global.css">
 </head>
 
 <body>
 
 <div class="dashboard">
 
-    <!-- ===== SIDEBAR ===== -->
+    <!-- OVERLAY for Mobile Sidebar -->
+    <div class="overlay" onclick="closeSidebar()"></div>
+
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-
         <h2 class="logo">SR Admin</h2>
-
         <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="leads.html">Leads</a>
-            <a href="student-orders.html" class="active">Student Orders</a>
-            <a href="projects-cms.html">Projects CMS</a>
-            <a href="blog-cms.html">Blog CMS</a>
-            <a href="testimonial-cms.html">Testimonials</a>
-        </nav>
-
+    <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+    <a href="leads.html"><i class="fa-solid fa-address-book"></i> Leads</a>
+    <a href="student-orders.html" class="active"><i class="fa-solid fa-graduation-cap"></i> Student Orders</a>
+    <a href="projects-cms.html"><i class="fa-solid fa-briefcase"></i> Projects CMS</a>
+    <a href="blog-cms.html"><i class="fa-solid fa-newspaper"></i> Blog CMS</a>
+    <a href="testimonial-cms.html"><i class="fa-solid fa-comment-dots"></i> Testimonials</a>
+    <a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</nav>
     </aside>
 
-
-    <!-- ===== MAIN ===== -->
+    <!-- MAIN CONTENT -->
     <main class="main">
 
         <!-- TOPBAR -->
         <header class="topbar">
-            <h1>Student Orders</h1>
+            <div class="left">
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+                <h1>Student Orders</h1>
+            </div>
 
-            <input type="text" placeholder="Search Orders..." class="search">
+            <div class="topbar-right">
+                <button class="theme-btn" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+                <span class="admin-name">Admin</span>
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            </div>
         </header>
 
+        <!-- ACTION BAR -->
+        <section class="action-bar">
+            <div class="action-info">
+                <h2>Manage Orders</h2>
+                <p>View and manage all student project requests</p>
+            </div>
+            
+            <div class="action-controls">
+                <!-- Search Input added for better UX -->
+                <input type="text" id="orderSearch" class="search-input" placeholder="Search orders..." oninput="filterOrders()">
+                <button class="refresh-btn" onclick="loadOrders()">🔄 Refresh</button>
+            </div>
+        </section>
 
-        <!-- TABLE -->
+        <!-- DATA TABLE -->
         <section class="table-section">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Email</th>
+                            <th>College</th>
+                            <th>Project</th>
+                            <th>Deadline</th>
+                            <th>Budget</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
 
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th>Email</th>
-                        <th>College</th>
-                        <th>Project</th>
-                        <th>Deadline</th>
-                        <th>Budget</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>Rahul Sharma</td>
-                        <td>rahul@mail.com</td>
-                        <td>ABC Engineering College</td>
-                        <td>MERN Project</td>
-                        <td>15 Feb 2026</td>
-                        <td>₹8000</td>
-                        <td><span class="status new">New</span></td>
-                        <td>
-                            <button class="update">Update</button>
-                            <button class="delete">Delete</button>
-                        </td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
+                    <!-- Dynamic Data Body -->
+                    <tbody id="orderTable">
+                        <tr>
+                            <td colspan="8" style="text-align:center; padding: 50px;">
+                                <div class="loader-text">⏳ Loading student orders...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
     </main>
-
 </div>
 
- <script src="assets/js/student-orders.js"></script>
+<!-- ================= EDIT MODAL ================= -->
+<div id="editModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Edit Order Details</h2>
+            <span class="close" onclick="closeEditModal()">&times;</span>
+        </div>
+        <hr>
+        <form id="editForm">
+            <input type="hidden" id="editId">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editName">Student Name</label>
+                    <input type="text" id="editName" placeholder="Enter name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editEmail">Student Email</label>
+                    <input type="email" id="editEmail" placeholder="Enter email" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editCollege">College / Institution</label>
+                <input type="text" id="editCollege" placeholder="College name">
+            </div>
+
+            <div class="form-group">
+                <label for="editProject">Project Requirements</label>
+                <textarea id="editProject" rows="3" placeholder="Project info..."></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editDeadline">Deadline</label>
+                    <input type="date" id="editDeadline">
+                </div>
+
+                <div class="form-group">
+                    <label for="editBudget">Budget (INR/USD)</label>
+                    <input type="text" id="editBudget" placeholder="e.g. ₹5000">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editStatus">Order Status</label>
+                <select id="editStatus">
+                    <option value="new">New Order</option>
+                    <option value="pending">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancel</button>
+                <button type="submit" class="save-btn">Update Order Info</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- EXTERNAL SCRIPTS -->
+<script src="assets/js/common.js"></script>
+<script src="assets/js/student-orders.js"></script>
 
 </body>
 </html>

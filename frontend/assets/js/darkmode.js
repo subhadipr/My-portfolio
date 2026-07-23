@@ -1,50 +1,81 @@
-/* ================================= */
-/* ===== DARK MODE TOGGLE ========== */
-/* ================================= */
+/* =================================
+   DARK MODE TOGGLE
+================================= */
 
 const darkToggle = document.getElementById("darkToggle");
+const mobileDarkToggle = document.getElementById("mobileDarkToggle");
 
-/* ===== LOAD SAVED MODE ===== */
+/* LOAD SAVED THEME */
 
 function loadSavedTheme() {
 
     const savedTheme = localStorage.getItem("theme");
 
-    if (savedTheme === "dark") {
+    if(savedTheme === "dark"){
+
         document.body.classList.add("dark");
 
-        if (darkToggle) {
-            darkToggle.textContent = "☀️";
+        if(darkToggle){
+            darkToggle.innerHTML = "☀️";
         }
+
+        if(mobileDarkToggle){
+            mobileDarkToggle.innerHTML = "☀️ Light Mode";
+        }
+
     }
 
 }
 
-/* ===== TOGGLE CLICK ===== */
+/* THEME FUNCTION */
 
-if (darkToggle) {
+function toggleTheme(){
 
-    darkToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
 
-        document.body.classList.toggle("dark");
+    const isDark = document.body.classList.contains("dark");
 
-        if (document.body.classList.contains("dark")) {
+    if(isDark){
 
-            localStorage.setItem("theme", "dark");
-            darkToggle.textContent = "☀️";
+        localStorage.setItem("theme","dark");
 
-        } else {
-
-            localStorage.setItem("theme", "light");
-            darkToggle.textContent = "🌙";
-
+        if(darkToggle){
+            darkToggle.innerHTML = "☀️";
         }
 
-    });
+        if(mobileDarkToggle){
+            mobileDarkToggle.innerHTML = "☀️ Light Mode";
+        }
+
+    }else{
+
+        localStorage.setItem("theme","light");
+
+        if(darkToggle){
+            darkToggle.innerHTML = "🌙";
+        }
+
+        if(mobileDarkToggle){
+            mobileDarkToggle.innerHTML = "🌙 Dark Mode";
+        }
+
+    }
 
 }
 
-/* ===== INIT ===== */
+/* DESKTOP BUTTON */
+
+if(darkToggle){
+    darkToggle.addEventListener("click", toggleTheme);
+}
+
+/* MOBILE MENU BUTTON */
+
+if(mobileDarkToggle){
+    mobileDarkToggle.addEventListener("click", toggleTheme);
+}
+
+/* INIT */
 
 loadSavedTheme();
 

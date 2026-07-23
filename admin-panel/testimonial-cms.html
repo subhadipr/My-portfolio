@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonial CMS | SR Admin</title>
 
-<title>Testimonial CMS | Admin</title>
-
-<link rel="stylesheet" href="assets/css/testimonial-cms.css">
-
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/testimonial-cms.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/darkmode.css">
+    <link rel="stylesheet" href="assets/css/global.css">
 </head>
 
 <body>
@@ -15,99 +21,123 @@
 <div class="dashboard">
 
     <!-- ===== SIDEBAR ===== -->
+    <div class="overlay" onclick="closeSidebar()"></div>
     <aside class="sidebar">
-
         <h2 class="logo">SR Admin</h2>
-
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="leads.html">Leads</a>
-            <a href="student-orders.html">Student Orders</a>
-            <a href="projects-cms.html">Projects CMS</a>
-            <a href="blog-cms.html">Blog CMS</a>
-            <a href="testimonial-cms.html" class="active">Testimonials</a>
-        </nav>
-
+     <nav>
+    <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+    <a href="leads.html"><i class="fa-solid fa-address-book"></i> Leads</a>
+    <a href="student-orders.html"><i class="fa-solid fa-graduation-cap"></i> Student Orders</a>
+    <a href="projects-cms.html"><i class="fa-solid fa-briefcase"></i> Projects CMS</a>
+    <a href="blog-cms.html"><i class="fa-solid fa-newspaper"></i> Blog CMS</a>
+    <a href="testimonial-cms.html" class="active"><i class="fa-solid fa-comment-dots"></i> Testimonials</a>
+    <a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</nav>
     </aside>
 
-
-    <!-- ===== MAIN ===== -->
+    <!-- ===== MAIN CONTENT ===== -->
     <main class="main">
 
-        <!-- PAGE TITLE -->
+        <!-- TOPBAR -->
         <header class="topbar">
-            <h1>Testimonial CMS</h1>
+            <div class="left">
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+                <h1>Testimonial Management</h1>
+            </div>
+
+            <div class="topbar-right">
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+                <div class="admin-info">
+                    <span class="admin-name">Admin</span>
+                    <!-- টপবার বাটনটিও handleLogout() কল করবে -->
+                    <button class="logout-btn" onclick="handleLogout()">Logout</button>
+                </div>
+            </div>
         </header>
 
-
-        <!-- ADD TESTIMONIAL FORM -->
+        <!-- ADD TESTIMONIAL FORM SECTION -->
         <section class="form-section">
+            <div class="section-header">
+                <h2><i class="fa-solid fa-plus-circle"></i> Add New Testimonial</h2>
+            </div>
 
-            <h2>Add Testimonial</h2>
+            <form class="testimonial-form" id="testimonialForm">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="clientName">Client Name</label>
+                        <input type="text" id="clientName" placeholder="Full Name" required>
+                    </div>
 
-            <form class="testimonial-form">
+                    <div class="input-group">
+                        <label for="companyName">Company Name</label>
+                        <input type="text" id="companyName" placeholder="Organization / Brand" required>
+                    </div>
 
-                <input type="text" placeholder="Client Name">
+                    <div class="input-group">
+                        <label for="testimonialRating">Rating</label>
+                        <select id="testimonialRating" required>
+                            <option value="" disabled selected>Select Rating</option>
+                            <option value="5">5 Star - Excellent</option>
+                            <option value="4">4 Star - Very Good</option>
+                            <option value="3">3 Star - Good</option>
+                            <option value="2">2 Star - Fair</option>
+                            <option value="1">1 Star - Poor</option>
+                        </select>
+                    </div>
 
-                <input type="text" placeholder="Company Name">
+                    <div class="input-group">
+                        <label for="clientImage">Client Image</label>
+                        <!-- ফাইল আপলোড বা URL ইনপুট দুইই ব্যবহার করা যাবে -->
+                        <input type="file" id="clientImageFile">
+                    </div>
+                </div>
 
-                <textarea placeholder="Client Review"></textarea>
+                <div class="input-group full-width">
+                    <label for="clientReview">Client Review</label>
+                    <textarea id="clientReview" rows="4" placeholder="Write the feedback here..." required></textarea>
+                </div>
 
-                <select>
-                    <option>Select Rating</option>
-                    <option>5 Star</option>
-                    <option>4 Star</option>
-                    <option>3 Star</option>
-                </select>
-
-                <input type="file">
-
-                <button type="submit">Add Testimonial</button>
-
+                <button type="submit" id="submitBtn" class="primary-btn">
+                    <i class="fa-solid fa-paper-plane"></i> Add Testimonial
+                </button>
             </form>
-
         </section>
 
-
-        <!-- TESTIMONIAL TABLE -->
+        <!-- TESTIMONIAL DISPLAY TABLE -->
         <section class="table-section">
+            <div class="section-header">
+                <h2><i class="fa-solid fa-list-check"></i> All Testimonials</h2>
+            </div>
 
-            <h2>All Testimonials</h2>
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Client</th>
-                        <th>Company</th>
-                        <th>Rating</th>
-                        <th>Review</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>Amit Kumar</td>
-                        <td>Tech Pvt Ltd</td>
-                        <td>⭐⭐⭐⭐⭐</td>
-                        <td>Excellent Developer</td>
-                        <td>
-                            <button class="delete">Delete</button>
-                        </td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
+            <div class="table-container">
+                <table id="testimonialTable">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Company</th>
+                            <th>Rating</th>
+                            <th>Review</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testimonialTableBody">
+                        
+                        <tr>
+                            <td colspan="5" style="text-align:center; padding:20px;">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Loading...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
     </main>
-
 </div>
- <script src="assets/js/testimonial-cms.js"></script>
+
+<!-- SCRIPTS -->
+<script src="assets/js/common.js"></script>
+<script src="assets/js/testimonial-cms.js"></script>
 
 </body>
 </html>

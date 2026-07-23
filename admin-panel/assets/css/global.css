@@ -1,0 +1,50 @@
+/* 1. Universal Cursor Fix: Shudhu type korar jayga chara cursor blink hobe na */
+html, body, div, section, main, header, aside, table, tr, td, th {
+    caret-color: transparent !important; /* Cursor blink puro bondho */
+}
+
+/* 2. Re-enable cursor blink for Inputs and Textareas */
+input, textarea, [contenteditable="true"] {
+    caret-color: auto !important; /* Shudhu ekhane cursor blink korbe */
+    cursor: text;
+}
+
+/* 3. Text selection jate "text" er moto na hoye "default" hoy */
+.sidebar, .topbar, .btn, .menu-icon, .nav-links a {
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* 4. Force specific cursor for links and buttons */
+a, button, .clickable {
+    cursor: pointer !important;
+}
+
+/* 5. Content area-te click korle jate focus ring na ashe */
+*:focus {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ১. সব এলিমেন্টের ওপর মাউস পয়েন্টার ডিফল্ট রাখা */
+html, body, div, section, main, header, aside, table, tr, td, th, h1, h2, h3, p, span {
+    cursor: default !important; /* টেক্সটের ওপর নিলেও কার্সার তীরের মতো থাকবে */
+}
+
+/* ২. বাটন এবং লিঙ্কের ওপর হাতের চিহ্ন (Pointer) দেখানো */
+a, button, .menu-btn, .theme-btn, i {
+    cursor: pointer !important;
+}
+
+/* ৩. শুধুমাত্র লেখার জায়গায় টেক্সট কার্সার (I-beam) ফিরিয়ে আনা */
+input, textarea, [contenteditable="true"] {
+    cursor: text !important;
+    caret-color: auto !important; /* এখানে কার্সার ব্লিংক করবে */
+}
+
+/* ৪. টেক্সট সিলেকশন ড্র্যাগিং বন্ধ করা (ঐচ্ছিক কিন্তু ড্যাশবোর্ডের জন্য ভালো) */
+.sidebar, .topbar, .logo, .stats, .card {
+    user-select: none;
+    -webkit-user-select: none;
+}

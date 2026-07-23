@@ -1,9 +1,11 @@
 const token = localStorage.getItem("adminToken");
 
-if (!token) window.location.href = "login.html";
+if (!token) {
+    window.location.href = "login.html";
+}
 
 const form = document.querySelector(".blog-form");
-const tableBody = document.querySelector("tbody");
+const tableBody = document.querySelector("#blogTable");
 
 // ================= LOAD BLOGS =================
 
@@ -11,30 +13,68 @@ async function loadBlogs() {
 
     try {
 
-        const res = await fetch("http://localhost:5000/api/blogs");
+        const res = await fetch("http://localhost:5000/api/blog");
         const blogs = await res.json();
 
         tableBody.innerHTML = "";
 
-        blogs.forEach(b => {
+        if (!blogs.length) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="4" style="text-align:center;padding:30px;">
+                        No Articles Found
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        blogs.forEach((b) => {
 
             const date = new Date(b.createdAt).toLocaleDateString();
 
             tableBody.innerHTML += `
-            <tr>
-                <td>${b.title}</td>
-                <td>${b.category || "General"}</td>
-                <td>${date}</td>
-                <td>
-                    <button onclick="deleteBlog('${b._id}')">Delete</button>
-                </td>
-            </tr>
+                <tr>
+                    <td>${b.title}</td>
+
+                    <td>
+                        <span class="badge-category">
+                            ${b.category || "General"}
+                        </span>
+                    </td>
+
+                    <td>${date}</td>
+
+                    <td>
+                        <div class="action-btns">
+
+                            <button
+                                class="delete-btn"
+                                onclick="deleteBlog('${b._id}')"
+                                title="Delete Blog">
+
+                                <i class="fa-solid fa-trash"></i>
+
+                            </button>
+
+                        </div>
+                    </td>
+                </tr>
             `;
 
         });
 
     } catch (err) {
-        console.log(err);
+
+        console.error(err);
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="4" style="text-align:center;color:red;padding:30px;">
+                    Failed to Load Blogs
+                </td>
+            </tr>
+        `;
     }
 
 }
@@ -45,34 +85,52 @@ form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    const inputs = form.querySelectorAll("input, textarea, select");
-
     const blogData = {
-        title: inputs[0].value,
-        content: inputs[1].value,
-        category: inputs[2].value
+
+        title: document.getElementById("blogTitle").value,
+
+        category: document.getElementById("blogCategory").value,
+
+        content: document.getElementById("blogContent").value,
+
+        image: document.getElementById("blogImage").value,
+
+        tags: document.getElementById("blogTags").value
+
     };
 
     try {
 
-        await fetch("http://localhost:5000/api/blogs", {
+        const res = await fetch("http://localhost:5000/api/blog", {
 
             method: "POST",
 
             headers: {
+
                 "Content-Type": "application/json",
+
                 Authorization: "Bearer " + token
+
             },
 
             body: JSON.stringify(blogData)
 
         });
 
+        if (!res.ok) {
+            throw new Error("Publish Failed");
+        }
+
         form.reset();
+
         loadBlogs();
 
     } catch (err) {
+
+        console.error(err);
+
         alert("Blog Publish Failed");
+
     }
 
 });
@@ -81,16 +139,38 @@ form.addEventListener("submit", async (e) => {
 
 async function deleteBlog(id) {
 
-    if (!confirm("Delete Blog?")) return;
+    if (!confirm("Are you sure you want to delete this blog?")) return;
 
-    await fetch(`http://localhost:5000/api/blogs/${id}`, {
-        method: "DELETE",
-        headers: {
-            Authorization: "Bearer " + token
+    try {
+
+        const res = await fetch(`http://localhost:5000/api/blog/${id}`, {
+
+            method: "DELETE",
+
+            headers: {
+
+                Authorization: "Bearer " + token
+
+            }
+
+        });
+
+        if (!res.ok) {
+
+            throw new Error("Delete Failed");
+
         }
-    });
 
-    loadBlogs();
+        loadBlogs();
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("Failed to Delete Blog");
+
+    }
+
 }
 
 // ================= INIT =================

@@ -1,24 +1,18 @@
 const express = require("express");
 const router = express.Router();
-
 const auth = require("../middleware/authMiddleware");
-
 const {
-  getStudentProjects,
-  createStudentProject,
   createStudentOrder,
   getStudentOrders,
-  updateOrderStatus
+  getSingleOrder,
+  updateOrder,
+  deleteOrder
 } = require("../controllers/studentController");
 
-
-// Public
-router.get("/projects", getStudentProjects);
-router.post("/order", createStudentOrder);
-
-// Admin
-router.post("/projects", auth, createStudentProject);
-router.get("/orders", auth, getStudentOrders);
-router.patch("/orders/:id", auth, updateOrderStatus);
+router.post("/order", createStudentOrder); // Public
+router.get("/orders", auth, getStudentOrders); // Protected
+router.get("/orders/:id", auth, getSingleOrder); 
+router.put("/orders/:id", auth, updateOrder); 
+router.delete("/orders/:id", auth, deleteOrder);
 
 module.exports = router;

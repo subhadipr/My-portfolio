@@ -1,111 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Blog CMS | Admin</title>
-
-<link rel="stylesheet" href="assets/css/blog-cms.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog CMS | Admin Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/blog-cms.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/darkmode.css">
+    <link rel="stylesheet" href="assets/css/global.css">
 </head>
-
 <body>
 
 <div class="dashboard">
 
     <!-- ===== SIDEBAR ===== -->
+    <div class="overlay" onclick="closeSidebar()"></div>
     <aside class="sidebar">
-
         <h2 class="logo">SR Admin</h2>
-
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="leads.html">Leads</a>
-            <a href="student-orders.html">Student Orders</a>
-            <a href="projects-cms.html">Projects CMS</a>
-            <a href="blog-cms.html" class="active">Blog CMS</a>
-            <a href="testimonial-cms.html">Testimonials</a>
-        </nav>
-
+       <nav>
+    <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+    <a href="leads.html"><i class="fa-solid fa-address-book"></i> Leads</a>
+    <a href="student-orders.html"><i class="fa-solid fa-graduation-cap"></i> Student Orders</a>
+    <a href="projects-cms.html"><i class="fa-solid fa-briefcase"></i> Projects CMS</a>
+    <a href="blog-cms.html" class="active"><i class="fa-solid fa-newspaper"></i> Blog CMS</a>
+    <a href="testimonial-cms.html"><i class="fa-solid fa-comment-dots"></i> Testimonials</a>
+    <a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</nav>
     </aside>
 
-
-    <!-- ===== MAIN ===== -->
+    <!-- ===== MAIN CONTENT ===== -->
     <main class="main">
 
-        <!-- TITLE -->
+        <!-- TOPBAR -->
         <header class="topbar">
-            <h1>Blog CMS</h1>
+            <div class="left">
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+                <h1>Blog Management</h1>
+            </div>
+            <div class="topbar-right">
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+                <span class="admin-name">Admin</span>
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            </div>
         </header>
 
-
-        <!-- ADD BLOG FORM -->
-        <section class="form-section">
-
-            <h2>Add New Blog</h2>
-
-            <form class="blog-form">
-
-                <input type="text" placeholder="Blog Title">
-
-                <textarea placeholder="Blog Content"></textarea>
-
-                <select>
-                    <option>Select Category</option>
-                    <option>Web Development</option>
-                    <option>Business Website</option>
-                    <option>SEO Tips</option>
-                </select>
-
-                <input type="file">
-
-                <button type="submit">Publish Blog</button>
-
-            </form>
-
+        <!-- ACTION BAR -->
+        <section class="action-bar">
+            <div class="action-info-wrapper">
+                <div class="action-info">
+                    <h2>Add New Article</h2>
+                    <p>Publish fresh content to keep your audience engaged</p>
+                </div>
+                <button class="refresh-btn-small" onclick="loadBlogs()">
+                    <i class="fa-solid fa-rotate"></i> Refresh
+                </button>
+            </div>
         </section>
 
+        <!-- ADD BLOG FORM SECTION -->
+        <section class="form-section">
+            <form id="blogForm" class="blog-form">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Blog Title</label>
+                        <input type="text" id="blogTitle" placeholder="The future of Web Development..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="blogCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="Business Website">Business Website</option>
+                            <option value="SEO Tips">SEO Tips</option>
+                            <option value="Tech Trends">Tech Trends</option>
+                        </select>
+                    </div>
+                </div>
 
-        <!-- BLOG TABLE -->
+                <div class="form-group">
+                    <label>Main Content</label>
+                    <textarea id="blogContent" placeholder="Start writing your article here..." required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Featured Image URL</label>
+                        <input type="text" id="blogImage" placeholder="https://unsplash.com/your-image.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>Tags (Optional)</label>
+                        <input type="text" id="blogTags" placeholder="React, Coding, 2026">
+                    </div>
+                </div>
+
+                <button type="submit" class="save-btn" id="submitBtn">
+                    <i class="fa-solid fa-paper-plane"></i> Publish Article
+                </button>
+            </form>
+        </section>
+
+        <!-- BLOG LIST TABLE SECTION -->
         <section class="table-section">
-
-            <h2>All Blogs</h2>
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>Why Business Needs Website</td>
-                        <td>Business Website</td>
-                        <td>05 Feb 2026</td>
-                        <td>
-                            <button class="edit">Edit</button>
-                            <button class="delete">Delete</button>
-                        </td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
+            <div class="action-bar" style="box-shadow: none; border-bottom: 1px solid #f1f5f9; border-radius: 0;">
+                <div class="action-info">
+                    <h2>Published Articles</h2>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="blogTable">
+                        
+                        <tr>
+                            <td colspan="4" style="text-align:center; padding: 30px; color: #64748b;">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Loading Articles...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
     </main>
 
 </div>
- 
+
+<!-- Scripts -->
 <script src="assets/js/blog-cms.js"></script>
+<script src="assets/js/common.js"></script>
 
 </body>
 </html>

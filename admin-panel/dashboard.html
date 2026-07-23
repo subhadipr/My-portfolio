@@ -1,93 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Subhadip Portfolio</title>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<title>Admin Dashboard | Subhadip Portfolio</title>
-
-<link rel="stylesheet" href="assets/css/dashboard.css">
-
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/darkmode.css">
+    <link rel="stylesheet" href="assets/css/global.css">
 </head>
 
 <body>
 
 <div class="dashboard">
 
-    <!-- ===== SIDEBAR ===== -->
-
+    <!-- SIDEBAR -->
+    <div class="overlay" onclick="closeSidebar()"></div>
+    
     <aside class="sidebar">
-
-        <h2 class="logo">SR Admin</h2>
+        <!-- লোগো সেকশন -->
+        <div class="sidebar-header">
+            <div class="admin-logo-container">
+                <img src="assets/images/new_logo_final-removebg-preview.png" alt="SR Logo" class="admin-profile-img">
+                <div class="logo-text">
+                    <span class="logo-title">SR Admin</span>
+                    <span class="logo-subtitle">Management</span>
+                </div>
+            </div>
+        </div>
 
         <nav>
-            <a href="dashboard.html" class="active">Dashboard</a>
-            <a href="leads.html">Leads</a>
-            <a href="student-orders.html">Student Orders</a>
-            <a href="projects-cms.html">Projects CMS</a>
-            <a href="blog-cms.html">Blog CMS</a>
-            <a href="testimonial-cms.html">Testimonials</a>
+            <a href="dashboard.html" class="active"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a href="leads.html"><i class="fa-solid fa-address-book"></i> Leads</a>
+            <a href="student-orders.html"><i class="fa-solid fa-graduation-cap"></i> Student Orders</a>
+            <a href="projects-cms.html"><i class="fa-solid fa-briefcase"></i> Projects CMS</a>
+            <a href="blog-cms.html"><i class="fa-solid fa-newspaper"></i> Blog CMS</a>
+            <a href="testimonial-cms.html"><i class="fa-solid fa-comment-dots"></i> Testimonials</a>
+            <a href="#" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
         </nav>
-
     </aside>
 
-    <!-- ===== MAIN ===== -->
-
+    <!-- MAIN CONTENT -->
     <main class="main">
 
-        <!-- TOP BAR -->
+        <!-- TOPBAR -->
         <header class="topbar">
-            <h1>Dashboard</h1>
-
-            <div style="display:flex; gap:15px; align-items:center;">
-
-                <div class="admin-profile">
-                    <span>Admin</span>
-                </div>
-
-                <!-- LOGOUT BUTTON -->
-                <button class="logout-btn">Logout</button>
-
+            <div class="left">
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+                <h1>Dashboard</h1>
             </div>
 
+            <div class="topbar-right">
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+                <span class="admin-name">Admin</span>
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            </div>
         </header>
 
-        <!-- WELCOME -->
+        <!-- WELCOME SECTION -->
         <section class="welcome">
             <h2>Welcome Back, Subhadip 👋</h2>
-            <p>Here is your portfolio business overview</p>
+            <p>Here is your business overview</p>
         </section>
 
-        <!-- STATS -->
+        <!-- STATS CARDS -->
         <section class="stats">
-
             <div class="card">
                 <h3>Total Leads</h3>
-                <p>120</p>
+                <p id="totalLeads">0</p>
             </div>
 
             <div class="card">
                 <h3>Projects</h3>
-                <p>35</p>
+                <p id="totalProjects">0</p>
             </div>
 
             <div class="card">
-                <h3>Student Orders</h3>
-                <p>18</p>
+                <h3>Orders</h3>
+                <p id="totalOrders">0</p>
             </div>
 
             <div class="card">
                 <h3>Blogs</h3>
-                <p>22</p>
+                <p id="totalBlogs">0</p>
             </div>
-
         </section>
 
-        <!-- RECENT TABLE -->
+        <!-- RECENT LEADS TABLE -->
         <section class="recent">
-
             <h2>Recent Leads</h2>
-
             <table>
                 <thead>
                     <tr>
@@ -97,28 +103,19 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-
-                <tbody>
-                    <tr>
-                        <td>Test User</td>
-                        <td>test@mail.com</td>
-                        <td>Portfolio</td>
-                        <td class="status new">New</td>
-                    </tr>
+                <tbody id="leadTable">
+                    <tr><td colspan="4">Loading...</td></tr>
                 </tbody>
             </table>
-
         </section>
 
     </main>
 
 </div>
 
-<!-- COMPONENT JS -->
-<script src="components/sidebar.js"></script>
-<script src="components/header.js"></script>
+<!-- Scripts -->
 <script src="assets/js/dashboard.js"></script>
-
+<script src="assets/js/common.js"></script>
 
 </body>
 </html>
