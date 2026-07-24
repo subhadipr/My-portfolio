@@ -18,6 +18,165 @@ align-items:center;
 overflow:hidden;
 }
 
+
+/*==============================
+        LOGIN NAVBAR
+==============================*/
+
+.login-navbar{
+    width:100%;
+    padding:18px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1000;
+
+    background:rgba(10,10,20,.80);
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    box-sizing:border-box;
+
+    animation:navDown .8s ease;
+}
+
+/*==============================
+          LOGO
+==============================*/
+
+.login-logo a{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    text-decoration:none;
+}
+
+.login-logo img{
+
+    width:100px;
+    height:70px;
+    object-fit:contain;
+
+    transition:.45s;
+
+    animation:logoFloat 4s ease-in-out infinite;
+}
+
+.login-logo img:hover{
+
+    transform:scale(1.15) rotate(6deg);
+
+    filter:
+    drop-shadow(0 0 12px #00d4ff)
+    drop-shadow(0 0 25px #00d4ff);
+
+}
+
+.login-logo span{
+
+    color:#fff;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:1px;
+
+    transition:.3s;
+
+}
+
+.login-logo:hover span{
+
+    color:#00d4ff;
+
+}
+
+/*==============================
+        HOME BUTTON
+==============================*/
+
+.home-btn{
+
+    padding:12px 26px;
+
+    border-radius:10px;
+
+    border:2px solid #88afb5;
+
+    color:#98c8d2;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.35s;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+
+
+
+
+.home-btn:hover::before{
+
+    width:100%;
+
+}
+
+/*==============================
+        NAVBAR ANIMATION
+==============================*/
+
+@keyframes navDown{
+
+    from{
+
+        opacity:0;
+        transform:translateY(-80px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+/*==============================
+        FLOAT LOGO
+==============================*/
+
+@keyframes logoFloat{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-6px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
 /* ===== BACKGROUND FLOAT ANIMATION ===== */
 
 body::before{

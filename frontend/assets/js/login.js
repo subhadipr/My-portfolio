@@ -22,7 +22,7 @@ form.addEventListener("submit", async (e) => {
         if (res.ok && data.token) {
 
             localStorage.setItem("adminToken", data.token);
-            window.location.href = "dashboard.html";
+            window.location.href = "admin-panel/dashboard.html";
 
         } else {
             alert(data.message || "Login Failed");
