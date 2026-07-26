@@ -35,7 +35,7 @@ async function loadOrders() {
     const tbody = document.getElementById("orderTable");
     tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;">⏳ Loading orders...</td></tr>`;
 
-    const res = await apiCall("http://localhost:5000/api/student/orders");
+    const res = await apiCall("https://my-portfolio-92wy.onrender.com/student/orders");
     if (!res) return;
 
     const data = await res.json();
@@ -69,7 +69,7 @@ async function loadOrders() {
  * Open Modal and Show Calendar automatically on click
  */
 async function openEdit(id) {
-    const res = await apiCall(`http://localhost:5000/api/student/orders/${id}`);
+    const res = await apiCall(`https://my-portfolio-92wy.onrender.com/api/student/orders/${id}`);
     if (!res || !res.ok) return alert("Order not found!");
 
     const o = await res.json();
@@ -133,7 +133,7 @@ if (editForm) {
             status: document.getElementById("editStatus").value
         };
 
-        const res = await apiCall(`http://localhost:5000/api/student/orders/${id}`, {
+        const res = await apiCall(`https://my-portfolio-92wy.onrender.com/api/student/orders/${id}`, {
             method: "PUT",
             body: JSON.stringify(updatedData)
         });
@@ -151,7 +151,7 @@ if (editForm) {
  */
 async function deleteOrder(id) {
     if (!confirm("Are you sure you want to delete this order?")) return;
-    const res = await apiCall(`http://localhost:5000/api/student/orders/${id}`, { method: "DELETE" });
+    const res = await apiCall(`https://my-portfolio-92wy.onrender.com/api/student/orders/${id}`, { method: "DELETE" });
     if (res && res.ok) {
         alert("Order deleted successfully!");
         loadOrders();

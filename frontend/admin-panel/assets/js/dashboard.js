@@ -23,7 +23,7 @@ async function loadDashboardStats() {
     try {
 
         // ===== LEADS =====
-        const leadsRes = await fetch("http://localhost:5000/api/contact", {
+        const leadsRes = await fetch("https://my-portfolio-92wy.onrender.com", {
             headers: {
                 Authorization: "Bearer " + token
             }
@@ -36,13 +36,13 @@ async function loadDashboardStats() {
 
 
         // ===== PROJECTS =====
-        const projRes = await fetch("http://localhost:5000/api/projects");
+        const projRes = await fetch("https://my-portfolio-92wy.onrender.com");
         const projects = await projRes.json();
         document.getElementById("totalProjects").textContent = projects.length;
 
 
         // ===== ORDERS =====
-        const orderRes = await fetch("http://localhost:5000/api/student/orders", {
+        const orderRes = await fetch("https://my-portfolio-92wy.onrender.com/api/student/orders", {
             headers: {
                 Authorization: "Bearer " + token
             }

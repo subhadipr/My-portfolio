@@ -11,7 +11,7 @@ const tableBody = document.getElementById("projectTable");
 const submitBtn = form.querySelector(".save-btn");
 
 // ================= API =================
-const API_URL = "http://localhost:5000/api/projects";
+const API_URL = "https://my-portfolio-92wy.onrender.com/api/projects";
 
 // ================= EDIT STATE =================
 let editingProjectId = null;

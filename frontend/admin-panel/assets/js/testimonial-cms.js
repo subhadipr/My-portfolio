@@ -1,7 +1,7 @@
 // ================= CONFIG =================
 
-const API_URL = "http://localhost:5000/api/testimonial";
-const BASE_URL = "http://localhost:5000";
+const API_URL = "https://my-portfolio-92wy.onrender.com/api/testimonial";
+const BASE_URL = "https://my-portfolio-92wy.onrender.com";
 
 const token = localStorage.getItem("adminToken");
 

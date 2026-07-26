@@ -2,7 +2,7 @@
 /* ===== API BASE CONFIG =========== */
 /* ================================= */
 
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://my-portfolio-92wy.onrender.com";
 
 /* ================================= */
 /* ===== API REQUEST FUNCTION ====== */

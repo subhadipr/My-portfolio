@@ -13,7 +13,7 @@ async function loadBlogs() {
 
     try {
 
-        const res = await fetch("http://localhost:5000/api/blog");
+        const res = await fetch("https://my-portfolio-92wy.onrender.com");
         const blogs = await res.json();
 
         tableBody.innerHTML = "";
@@ -101,7 +101,7 @@ form.addEventListener("submit", async (e) => {
 
     try {
 
-        const res = await fetch("http://localhost:5000/api/blog", {
+        const res = await fetch("https://my-portfolio-92wy.onrender.com", {
 
             method: "POST",
 
@@ -143,7 +143,7 @@ async function deleteBlog(id) {
 
     try {
 
-        const res = await fetch(`http://localhost:5000/api/blog/${id}`, {
+        const res = await fetch(`https://my-portfolio-92wy.onrender.com/api/blog/${id}`, {
 
             method: "DELETE",
 
