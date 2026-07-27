@@ -2,7 +2,7 @@
 // 🔐 AUTH & CONFIG
 // ===============================
 const token = localStorage.getItem("adminToken");
-const API_URL = "https://my-portfolio-92wy.onrender.com/contact";
+const API_URL = "https://my-portfolio-92wy.onrender.com/api/contact";
 
 if (!token) window.location.href = "login.html";
 
