@@ -1,41 +1,78 @@
 /* ================================= */
-/* ===== API BASE CONFIG =========== */
+/* ========= API CONFIG ============ */
 /* ================================= */
 
 const BASE_URL = "https://my-portfolio-92wy.onrender.com";
 
 /* ================================= */
-/* ===== API REQUEST FUNCTION ====== */
+/* ========= API REQUEST =========== */
 /* ================================= */
 
 async function apiRequest(endpoint, method = "GET", body = null) {
 
+    const token = localStorage.getItem("adminToken");
+
+    const headers = {
+        "Content-Type": "application/json"
+    };
+
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
+
+    const options = {
+        method,
+        headers
+    };
+
+    if (body) {
+        options.body = JSON.stringify(body);
+    }
+
     try {
 
-        const res = await fetch(BASE_URL + endpoint, {
+        const response = await fetch(`${BASE_URL}${endpoint}`, options);
 
-            method,
+        // Session expired
+        if (response.status === 401) {
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+            localStorage.removeItem("adminToken");
 
-            body: body ? JSON.stringify(body) : null
+            alert("Session expired. Please login again.");
 
-        });
+            window.location.href = "/admin/login.html";
 
-        const data = await res.json();
+            return null;
 
-        if (!res.ok) {
-            throw new Error(data.message || "API Error");
+        }
+
+        // 204 No Content
+        if (response.status === 204) {
+            return null;
+        }
+
+        const contentType = response.headers.get("content-type");
+
+        const data = contentType &&
+            contentType.includes("application/json")
+            ? await response.json()
+            : null;
+
+        if (!response.ok) {
+
+            throw new Error(
+                data?.message || "API Request Failed"
+            );
+
         }
 
         return data;
 
-    } catch (error) {
+    } catch (err) {
 
-        console.error("API ERROR:", error);
-        throw error;
+        console.error("API Error:", err);
+
+        throw err;
 
     }
 

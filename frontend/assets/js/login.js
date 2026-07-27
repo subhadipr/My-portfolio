@@ -11,10 +11,19 @@ form.addEventListener("submit", async (e) => {
 
     try {
 
-        const res = await fetch("https://my-portfolio-92wy.onrender.com", {
+        const res = await fetch("https://my-portfolio-92wy.onrender.com/api/auth/login", {
+
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                email,
+                password
+            })
+
         });
 
         const data = await res.json();
@@ -22,15 +31,23 @@ form.addEventListener("submit", async (e) => {
         if (res.ok && data.token) {
 
             localStorage.setItem("adminToken", data.token);
+
+            alert("Login Successful!");
+
             window.location.href = "admin-panel/dashboard.html";
 
         } else {
+
             alert(data.message || "Login Failed");
+
         }
 
     } catch (error) {
-        console.log(error);
-        alert("Server Error. Try Again.");
+
+        console.error(error);
+
+        alert("Server Error. Please try again.");
+
     }
 
 });

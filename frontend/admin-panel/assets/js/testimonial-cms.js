@@ -1,29 +1,50 @@
-// ================= CONFIG =================
-
-const API_URL = "https://my-portfolio-92wy.onrender.com/api/testimonial";
-const BASE_URL = "https://my-portfolio-92wy.onrender.com";
-
+// ===============================
+// AUTH CHECK
+// ===============================
 const token = localStorage.getItem("adminToken");
 
 if (!token) {
     window.location.href = "login.html";
 }
 
+// ===============================
+// API CONFIG
+// ===============================
+const BASE_URL = "https://my-portfolio-92wy.onrender.com";
+const API_URL = `${BASE_URL}/api/testimonial`;
+
+// ===============================
+// UI ELEMENTS
+// ===============================
 const form = document.getElementById("testimonialForm");
 const tableBody = document.getElementById("testimonialTableBody");
 
-// ================= LOAD TESTIMONIALS =================
-
+// ===============================
+// LOAD TESTIMONIALS
+// ===============================
 async function loadTestimonials() {
+
+    tableBody.innerHTML = `
+        <tr>
+            <td colspan="5" class="loading-text">
+                Loading Testimonials...
+            </td>
+        </tr>
+    `;
 
     try {
 
         const res = await fetch(API_URL);
-        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error("Failed to load testimonials");
+        }
+
+        const testimonials = await res.json();
 
         tableBody.innerHTML = "";
 
-        if (!Array.isArray(data) || data.length === 0) {
+        if (!Array.isArray(testimonials) || testimonials.length === 0) {
 
             tableBody.innerHTML = `
                 <tr>
@@ -36,17 +57,15 @@ async function loadTestimonials() {
             return;
         }
 
-        data.forEach(t => {
+        testimonials.forEach((item) => {
 
             let imageUrl = "assets/img/default-user.png";
 
-            if (t.image) {
+            if (item.image) {
 
-                if (t.image.startsWith("http")) {
-                    imageUrl = t.image;
-                } else {
-                    imageUrl = `${BASE_URL}/${t.image.replace(/^\/+/, "")}`;
-                }
+                imageUrl = item.image.startsWith("http")
+                    ? item.image
+                    : `${BASE_URL}/${item.image.replace(/^\/+/, "")}`;
 
             }
 
@@ -54,46 +73,53 @@ async function loadTestimonials() {
                 <tr>
 
                     <td>
+
                         <div class="client-info">
 
                             <img
                                 src="${imageUrl}"
-                                alt="${t.clientName}"
+                                alt="${item.clientName}"
                                 onerror="this.src='assets/img/default-user.png'"
                             >
 
                             <div>
+
                                 <div class="client-name">
-                                    ${t.clientName}
+                                    ${item.clientName || "-"}
                                 </div>
+
                             </div>
 
                         </div>
+
                     </td>
 
-                    <td class="company-name">
-                        ${t.company}
-                    </td>
+                    <td>${item.company || "-"}</td>
 
                     <td>
+
                         <div class="rating">
-                            ${"★".repeat(Number(t.rating))}
+                            ${"★".repeat(Number(item.rating || 0))}
                         </div>
+
                     </td>
 
                     <td>
+
                         <div class="review">
-                            ${t.review}
+                            ${item.review || "-"}
                         </div>
+
                     </td>
 
                     <td class="text-center">
 
                         <button
                             class="delete-btn"
-                            onclick="deleteTestimonial('${t._id}')">
+                            onclick="deleteTestimonial('${item._id}')">
 
                             <i class="fas fa-trash"></i>
+
                             Delete
 
                         </button>
@@ -112,71 +138,93 @@ async function loadTestimonials() {
         tableBody.innerHTML = `
             <tr>
                 <td colspan="5" class="loading-text">
-                    Failed to load testimonials.
+                    Failed To Load Testimonials
                 </td>
             </tr>
         `;
+
     }
 
 }
 
-// ================= ADD TESTIMONIAL =================
+// ===============================
+// ADD TESTIMONIAL
+// ===============================
+if (form) {
 
-form.addEventListener("submit", async (e) => {
+    form.addEventListener("submit", async (e) => {
 
-    e.preventDefault();
+        e.preventDefault();
 
-    const formData = new FormData();
+        const formData = new FormData();
 
-    formData.append("clientName", document.getElementById("clientName").value);
-    formData.append("company", document.getElementById("companyName").value);
-    formData.append("rating", document.getElementById("testimonialRating").value);
-    formData.append("review", document.getElementById("clientReview").value);
+        formData.append(
+            "clientName",
+            document.getElementById("clientName").value
+        );
 
-    const image = document.getElementById("clientImageFile").files[0];
+        formData.append(
+            "company",
+            document.getElementById("companyName").value
+        );
 
-    if (image) {
-        formData.append("image", image);
-    }
+        formData.append(
+            "rating",
+            document.getElementById("testimonialRating").value
+        );
 
-    try {
+        formData.append(
+            "review",
+            document.getElementById("clientReview").value
+        );
 
-        const res = await fetch(API_URL, {
+        const image = document.getElementById("clientImageFile").files[0];
 
-            method: "POST",
-
-            headers: {
-                Authorization: "Bearer " + token
-            },
-
-            body: formData
-
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            return alert(data.message || "Failed to add testimonial.");
+        if (image) {
+            formData.append("image", image);
         }
 
-        alert("Testimonial Added Successfully.");
+        try {
 
-        form.reset();
+            const res = await fetch(API_URL, {
 
-        loadTestimonials();
+                method: "POST",
 
-    } catch (err) {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
 
-        console.error(err);
+                body: formData
 
-        alert("Server Error.");
+            });
 
-    }
+            const data = await res.json();
 
-});
+            if (!res.ok) {
+                throw new Error(data.message || "Failed To Add Testimonial");
+            }
 
-// ================= DELETE =================
+            alert("✅ Testimonial Added Successfully.");
 
+            form.reset();
+
+            loadTestimonials();
+
+        } catch (err) {
+
+            console.error(err);
+
+            alert(err.message);
+
+        }
+
+    });
+
+}
+
+// ===============================
+// DELETE TESTIMONIAL
+// ===============================
 async function deleteTestimonial(id) {
 
     if (!confirm("Are you sure you want to delete this testimonial?")) {
@@ -190,7 +238,7 @@ async function deleteTestimonial(id) {
             method: "DELETE",
 
             headers: {
-                Authorization: "Bearer " + token
+                Authorization: `Bearer ${token}`
             }
 
         });
@@ -198,10 +246,10 @@ async function deleteTestimonial(id) {
         const data = await res.json();
 
         if (!res.ok) {
-            return alert(data.message || "Delete failed.");
+            throw new Error(data.message || "Delete Failed");
         }
 
-        alert("Deleted Successfully.");
+        alert("✅ Testimonial Deleted Successfully.");
 
         loadTestimonials();
 
@@ -209,12 +257,13 @@ async function deleteTestimonial(id) {
 
         console.error(err);
 
-        alert("Server Error.");
+        alert(err.message);
 
     }
 
 }
 
-// ================= INIT =================
-
-loadTestimonials();
+// ===============================
+// INIT
+// ===============================
+document.addEventListener("DOMContentLoaded", loadTestimonials);

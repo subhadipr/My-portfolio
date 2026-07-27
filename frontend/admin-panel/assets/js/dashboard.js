@@ -4,15 +4,20 @@
 const token = localStorage.getItem("adminToken");
 
 if (!token) {
-    window.location.href = "login.html";
+    window.location.href = "../login.html";
 }
+
+// ===============================
+// 🌐 API BASE URL
+// ===============================
+const BASE_URL = "https://my-portfolio-92wy.onrender.com";
 
 // ===============================
 // 🚪 LOGOUT
 // ===============================
 document.querySelector(".logout-btn").addEventListener("click", () => {
     localStorage.removeItem("adminToken");
-    window.location.href = "login.html";
+    window.location.href = "../login.html";
 });
 
 // ===============================
@@ -23,9 +28,9 @@ async function loadDashboardStats() {
     try {
 
         // ===== LEADS =====
-        const leadsRes = await fetch("https://my-portfolio-92wy.onrender.com", {
+        const leadsRes = await fetch(`${BASE_URL}/api/contact`, {
             headers: {
-                Authorization: "Bearer " + token
+                Authorization: `Bearer ${token}`
             }
         });
 
@@ -36,41 +41,45 @@ async function loadDashboardStats() {
 
 
         // ===== PROJECTS =====
-        const projRes = await fetch("https://my-portfolio-92wy.onrender.com");
+        const projRes = await fetch(`${BASE_URL}/api/projects`);
+
+        if (!projRes.ok) throw new Error("Projects API Failed");
+
         const projects = await projRes.json();
         document.getElementById("totalProjects").textContent = projects.length;
 
 
         // ===== ORDERS =====
-        const orderRes = await fetch("https://my-portfolio-92wy.onrender.com/api/student/orders", {
+        const orderRes = await fetch(`${BASE_URL}/api/student/orders`, {
             headers: {
-                Authorization: "Bearer " + token
+                Authorization: `Bearer ${token}`
             }
         });
+
+        if (!orderRes.ok) throw new Error("Orders API Failed");
 
         const orders = await orderRes.json();
         document.getElementById("totalOrders").textContent = orders.length;
 
 
-        // ❌ BLOG REMOVED (404 issue fix)
-
+        // ===== BLOG =====
         document.getElementById("totalBlogs").textContent = "0";
 
 
-        // ===== RENDER TABLE =====
+        // ===== TABLE =====
         renderRecentLeads(leads);
 
     } catch (err) {
-        console.log("Dashboard Error:", err);
+
+        console.error("Dashboard Error:", err);
 
         document.getElementById("leadTable").innerHTML =
             "<tr><td colspan='4'>Error loading data</td></tr>";
     }
 }
 
-
 // ===============================
-// 📋 RENDER LEADS TABLE
+// 📋 RENDER LEADS
 // ===============================
 function renderRecentLeads(leads) {
 
@@ -78,24 +87,28 @@ function renderRecentLeads(leads) {
     tbody.innerHTML = "";
 
     if (!leads || leads.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='4'>No Data Found</td></tr>";
+
+        tbody.innerHTML =
+            "<tr><td colspan='4'>No Data Found</td></tr>";
+
         return;
     }
 
-    leads.slice(0, 5).forEach(l => {
+    leads.slice(0, 5).forEach((lead) => {
+
         tbody.innerHTML += `
         <tr>
-            <td>${l.name || "-"}</td>
-            <td>${l.email || "-"}</td>
-            <td>${l.projectType || "-"}</td>
-            <td class="status ${l.status || "new"}">${l.status || "new"}</td>
-        </tr>`;
+            <td>${lead.name || "-"}</td>
+            <td>${lead.email || "-"}</td>
+            <td>${lead.projectType || "-"}</td>
+            <td class="status ${lead.status || "new"}">${lead.status || "new"}</td>
+        </tr>
+        `;
+
     });
 }
-
 
 // ===============================
 // 🚀 INIT
 // ===============================
 loadDashboardStats();
-

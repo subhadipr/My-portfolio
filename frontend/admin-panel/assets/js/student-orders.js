@@ -1,129 +1,240 @@
+// ===============================
+// AUTH CHECK
+// ===============================
 const token = localStorage.getItem("adminToken");
 
 if (!token) {
     window.location.href = "login.html";
 }
 
-/**
- * Common API helper
- */
+// ===============================
+// API CONFIG
+// ===============================
+const BASE_URL = "https://my-portfolio-92wy.onrender.com";
+const API_URL = `${BASE_URL}/api/student/orders`;
+
+// ===============================
+// ELEMENTS
+// ===============================
+const orderTable = document.getElementById("orderTable");
+const editForm = document.getElementById("editForm");
+const editModal = document.getElementById("editModal");
+const deadlineInput = document.getElementById("editDeadline");
+
+// ===============================
+// API HELPER
+// ===============================
 async function apiCall(url, options = {}) {
+
     options.headers = {
         ...options.headers,
-        "Authorization": "Bearer " + token,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
     };
+
     try {
+
         const res = await fetch(url, options);
+
         if (res.status === 401) {
+
             alert("Session expired. Please login again.");
+
             localStorage.removeItem("adminToken");
+
             window.location.href = "login.html";
+
             return null;
         }
+
         return res;
+
     } catch (err) {
-        console.error("API Error:", err);
+
+        console.error(err);
+
+        alert("Server connection failed.");
+
         return null;
+
     }
+
 }
 
-/**
- * Load all orders into the table
- */
+// ===============================
+// LOAD ORDERS
+// ===============================
 async function loadOrders() {
-    const tbody = document.getElementById("orderTable");
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;">⏳ Loading orders...</td></tr>`;
 
-    const res = await apiCall("https://my-portfolio-92wy.onrender.com/student/orders");
+    orderTable.innerHTML = `
+        <tr>
+            <td colspan="8" style="text-align:center;">
+                ⏳ Loading Orders...
+            </td>
+        </tr>
+    `;
+
+    const res = await apiCall(API_URL);
+
     if (!res) return;
 
-    const data = await res.json();
-    tbody.innerHTML = "";
+    const orders = await res.json();
 
-    if (!data || data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;">No orders found</td></tr>`;
-        return;
-    }
+    orderTable.innerHTML = "";
 
-    data.forEach(o => {
-        const formattedDate = o.deadline ? new Date(o.deadline).toISOString().split("T")[0] : "-";
-        tbody.innerHTML += `
+    if (!orders.length) {
+
+        orderTable.innerHTML = `
             <tr>
-                <td>${o.studentName || '-'}</td>
-                <td>${o.email || '-'}</td>
-                <td>${o.college || '-'}</td>
-                <td>${o.project || '-'}</td>
-                <td>${formattedDate}</td>
-                <td>${o.budget || '-'}</td>
-                <td><span class="status ${o.status || 'new'}">${o.status || 'new'}</span></td>
-                <td class="action-btns">
-                    <button class="update" onclick="openEdit('${o._id}')">Edit</button>
-                    <button class="delete" onclick="deleteOrder('${o._id}')">Delete</button>
+                <td colspan="8" style="text-align:center;">
+                    No Orders Found
                 </td>
-            </tr>`;
+            </tr>
+        `;
+
+        return;
+
+    }
+
+    orders.forEach(order => {
+
+        const deadline = order.deadline
+            ? new Date(order.deadline).toISOString().split("T")[0]
+            : "-";
+
+        orderTable.innerHTML += `
+            <tr>
+
+                <td>${order.studentName || "-"}</td>
+
+                <td>${order.email || "-"}</td>
+
+                <td>${order.college || "-"}</td>
+
+                <td>${order.project || "-"}</td>
+
+                <td>${deadline}</td>
+
+                <td>${order.budget || "-"}</td>
+
+                <td>
+                    <span class="status ${order.status || "new"}">
+                        ${order.status || "new"}
+                    </span>
+                </td>
+
+                <td class="action-btns">
+
+                    <button
+                        class="update"
+                        onclick="openEdit('${order._id}')">
+
+                        Edit
+
+                    </button>
+
+                    <button
+                        class="delete"
+                        onclick="deleteOrder('${order._id}')">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+        `;
+
     });
+
 }
 
-/**
- * Open Modal and Show Calendar automatically on click
- */
+// ===============================
+// OPEN EDIT
+// ===============================
 async function openEdit(id) {
-    const res = await apiCall(`https://my-portfolio-92wy.onrender.com/api/student/orders/${id}`);
-    if (!res || !res.ok) return alert("Order not found!");
 
-    const o = await res.json();
+    const res = await apiCall(`${API_URL}/${id}`);
 
-    document.getElementById("editId").value = o._id;
-    document.getElementById("editName").value = o.studentName || "";
-    document.getElementById("editEmail").value = o.email || "";
-    document.getElementById("editCollege").value = o.college || "";
-    document.getElementById("editProject").value = o.project || "";
-    document.getElementById("editDeadline").value = o.deadline ? new Date(o.deadline).toISOString().split("T")[0] : "";
-    document.getElementById("editBudget").value = o.budget || "";
-    document.getElementById("editStatus").value = o.status || "new";
+    if (!res || !res.ok) {
 
-    document.getElementById("editModal").style.display = "flex";
+        alert("Order Not Found");
+
+        return;
+
+    }
+
+    const order = await res.json();
+
+    document.getElementById("editId").value = order._id;
+    document.getElementById("editName").value = order.studentName || "";
+    document.getElementById("editEmail").value = order.email || "";
+    document.getElementById("editCollege").value = order.college || "";
+    document.getElementById("editProject").value = order.project || "";
+    document.getElementById("editDeadline").value =
+        order.deadline
+            ? new Date(order.deadline).toISOString().split("T")[0]
+            : "";
+    document.getElementById("editBudget").value = order.budget || "";
+    document.getElementById("editStatus").value = order.status || "new";
+
+    editModal.style.display = "flex";
+
 }
 
-/**
- * Close Modal Function
- */
+// ===============================
+// CLOSE MODAL
+// ===============================
 function closeEditModal() {
-    document.getElementById("editModal").style.display = "none";
+
+    editModal.style.display = "none";
+
 }
 
-// ==========================================
-// 🔥 CALENDAR AUTO-OPEN LOGIC
-// ==========================================
-document.getElementById("editDeadline").addEventListener("click", function() {
-    try {
-        // This opens the native browser calendar picker immediately
+// ===============================
+// DATE PICKER
+// ===============================
+if (deadlineInput) {
+
+    deadlineInput.addEventListener("click", function () {
+
         if (this.showPicker) {
-            this.showPicker();
-        }
-    } catch (err) {
-        console.warn("showPicker() not supported in this browser.");
-    }
-});
 
-// Close modal if clicking outside the box
-window.onclick = function(event) {
-    const modal = document.getElementById("editModal");
-    if (event.target == modal) {
-        closeEditModal();
-    }
+            this.showPicker();
+
+        }
+
+    });
+
 }
 
-/**
- * Handle Form Submit
- */
-const editForm = document.getElementById("editForm");
+// ===============================
+// CLICK OUTSIDE
+// ===============================
+window.onclick = function (event) {
+
+    if (event.target === editModal) {
+
+        closeEditModal();
+
+    }
+
+};
+
+// ===============================
+// UPDATE ORDER
+// ===============================
 if (editForm) {
-    editForm.addEventListener("submit", async (e) => {
+
+    editForm.addEventListener("submit", async function (e) {
+
         e.preventDefault();
+
         const id = document.getElementById("editId").value;
+
         const updatedData = {
+
             studentName: document.getElementById("editName").value,
             email: document.getElementById("editEmail").value,
             college: document.getElementById("editCollege").value,
@@ -131,40 +242,66 @@ if (editForm) {
             deadline: document.getElementById("editDeadline").value,
             budget: document.getElementById("editBudget").value,
             status: document.getElementById("editStatus").value
+
         };
 
-        const res = await apiCall(`https://my-portfolio-92wy.onrender.com/api/student/orders/${id}`, {
+        const res = await apiCall(`${API_URL}/${id}`, {
+
             method: "PUT",
+
             body: JSON.stringify(updatedData)
+
         });
 
         if (res && res.ok) {
-            alert("Order updated successfully!");
+
+            alert("Order Updated Successfully.");
+
             closeEditModal();
+
             loadOrders();
+
         }
+
     });
+
 }
 
-/**
- * Handle Delete
- */
+// ===============================
+// DELETE ORDER
+// ===============================
 async function deleteOrder(id) {
-    if (!confirm("Are you sure you want to delete this order?")) return;
-    const res = await apiCall(`https://my-portfolio-92wy.onrender.com/api/student/orders/${id}`, { method: "DELETE" });
+
+    if (!confirm("Delete this order?")) return;
+
+    const res = await apiCall(`${API_URL}/${id}`, {
+
+        method: "DELETE"
+
+    });
+
     if (res && res.ok) {
-        alert("Order deleted successfully!");
+
+        alert("Order Deleted Successfully.");
+
         loadOrders();
+
     }
+
 }
 
-/**
- * Handle Logout
- */
+// ===============================
+// LOGOUT
+// ===============================
 function handleLogout() {
+
     localStorage.removeItem("adminToken");
+
     window.location.href = "login.html";
+
 }
 
-// Initialize
+// ===============================
+// INIT
+// ===============================
 loadOrders();

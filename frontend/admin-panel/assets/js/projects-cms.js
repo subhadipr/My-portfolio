@@ -1,35 +1,56 @@
-// ================= AUTH CHECK =================
+// ===============================
+// AUTH CHECK
+// ===============================
 const token = localStorage.getItem("adminToken");
 
 if (!token) {
     window.location.href = "login.html";
 }
 
-// ================= UI ELEMENTS =================
+// ===============================
+// API CONFIG
+// ===============================
+const BASE_URL = "https://my-portfolio-92wy.onrender.com";
+const API_URL = `${BASE_URL}/api/projects`;
+
+// ===============================
+// UI ELEMENTS
+// ===============================
 const form = document.getElementById("projectForm");
 const tableBody = document.getElementById("projectTable");
 const submitBtn = form.querySelector(".save-btn");
 
-// ================= API =================
-const API_URL = "https://my-portfolio-92wy.onrender.com/api/projects";
+const titleInput = document.getElementById("title");
+const descriptionInput = document.getElementById("description");
+const techInput = document.getElementById("tech");
+const liveInput = document.getElementById("live");
+const githubInput = document.getElementById("github");
+const typeInput = document.getElementById("type");
+const featuredInput = document.getElementById("featured");
 
-// ================= EDIT STATE =================
+// ===============================
+// EDIT STATE
+// ===============================
 let editingProjectId = null;
 
-// ================= HEADERS =================
+// ===============================
+// HEADERS
+// ===============================
 const getHeaders = () => ({
     "Content-Type": "application/json",
     "Authorization": `Bearer ${token}`
 });
 
-// ================= LOAD PROJECTS =================
+// ===============================
+// LOAD PROJECTS
+// ===============================
 async function loadProjects() {
 
     tableBody.innerHTML = `
         <tr>
             <td colspan="5" style="text-align:center;padding:40px;">
                 <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
-                <p style="margin-top:10px;">Loading Projects...</p>
+                <p>Loading Projects...</p>
             </td>
         </tr>
     `;
@@ -38,21 +59,18 @@ async function loadProjects() {
 
         const res = await fetch(API_URL);
 
-        if (!res.ok) {
-            throw new Error("Could not fetch projects");
-        }
+        if (!res.ok) throw new Error("Failed to load projects");
 
         const projects = await res.json();
 
         tableBody.innerHTML = "";
 
-        if (!projects || projects.length === 0) {
+        if (!projects.length) {
 
             tableBody.innerHTML = `
                 <tr>
                     <td colspan="5" style="text-align:center;padding:40px;">
-                        <i class="fa-regular fa-folder-open fa-2x"></i>
-                        <p style="margin-top:10px;">No Projects Found</p>
+                        No Projects Found
                     </td>
                 </tr>
             `;
@@ -62,69 +80,49 @@ async function loadProjects() {
 
         projects.forEach(project => {
 
-            const row = document.createElement("tr");
+            tableBody.innerHTML += `
+                <tr>
 
-            row.innerHTML = `
-                <td>
-                    <strong>${project.title}</strong>
-                </td>
+                    <td><strong>${project.title}</strong></td>
 
-                <td>
-                    ${project.type || "Other"}
-                </td>
+                    <td>${project.type || "Other"}</td>
 
-                <td>
-                    ${(project.techStack || [])
-                        .slice(0, 3)
-                        .join(", ")}
-                </td>
+                    <td>${(project.techStack || []).slice(0,3).join(", ")}</td>
 
-                <td>
-                    <button
-                        class="feature-btn ${project.featured ? "active" : ""}"
-                        onclick="toggleFeatured('${project._id}')">
+                    <td>
 
-                        <i class="fa-solid ${
-                            project.featured
-                                ? "fa-star"
-                                : "fa-star-half-stroke"
-                        }"></i>
+                        <button
+                            class="feature-btn ${project.featured ? "active" : ""}"
+                            onclick="toggleFeatured('${project._id}')">
 
-                        ${
-                            project.featured
-                                ? "Featured"
-                                : "Regular"
-                        }
+                            ${project.featured ? "⭐ Featured" : "☆ Regular"}
 
-                    </button>
-                </td>
+                        </button>
 
-                <td>
-                    <div class="action-btns">
+                    </td>
+
+                    <td>
 
                         <button
                             class="edit-btn"
-                            onclick="editProject('${project._id}')"
-                            title="Edit">
+                            onclick="editProject('${project._id}')">
 
-                            <i class="fa-solid fa-pen-to-square"></i>
+                            Edit
 
                         </button>
 
                         <button
                             class="delete-btn"
-                            onclick="deleteProject('${project._id}')"
-                            title="Delete">
+                            onclick="deleteProject('${project._id}')">
 
-                            <i class="fa-solid fa-trash"></i>
+                            Delete
 
                         </button>
 
-                    </div>
-                </td>
-            `;
+                    </td>
 
-            tableBody.appendChild(row);
+                </tr>
+            `;
 
         });
 
@@ -134,55 +132,43 @@ async function loadProjects() {
 
         tableBody.innerHTML = `
             <tr>
-                <td colspan="5" style="text-align:center;padding:40px;color:red;">
-                    <i class="fa-solid fa-triangle-exclamation fa-2x"></i>
-                    <p style="margin-top:10px;">
-                        Failed To Load Projects
-                    </p>
+                <td colspan="5" style="text-align:center;color:red;padding:40px;">
+                    Failed To Load Projects
                 </td>
             </tr>
         `;
+
     }
+
 }
 
-// ================= EDIT PROJECT =================
+// ===============================
+// EDIT PROJECT
+// ===============================
 async function editProject(id) {
 
     try {
 
         const res = await fetch(`${API_URL}/${id}`);
 
-        if (!res.ok) {
-            throw new Error("Project Not Found");
-        }
+        if (!res.ok) throw new Error("Project Not Found");
 
         const project = await res.json();
 
-        document.getElementById("title").value =
-            project.title || "";
-
-        document.getElementById("description").value =
-            project.description || "";
-
-        document.getElementById("tech").value =
-            (project.techStack || []).join(", ");
-
-        document.getElementById("live").value =
-            project.demoLink || "";
-
-        document.getElementById("github").value =
-            project.githubLink || "";
-
-        document.getElementById("type").value =
-            project.type || "";
-
-        document.getElementById("featured").checked =
-            project.featured || false;
+        titleInput.value = project.title || "";
+        descriptionInput.value = project.description || "";
+        techInput.value = (project.techStack || []).join(", ");
+        liveInput.value = project.demoLink || "";
+        githubInput.value = project.githubLink || "";
+        typeInput.value = project.type || "";
+        featuredInput.checked = project.featured || false;
 
         editingProjectId = id;
 
-        submitBtn.innerHTML =
-            `<i class="fa-solid fa-floppy-disk"></i> Update Project`;
+        submitBtn.innerHTML = `
+            <i class="fa-solid fa-floppy-disk"></i>
+            Update Project
+        `;
 
         window.scrollTo({
             top: 0,
@@ -193,77 +179,71 @@ async function editProject(id) {
 
         console.error(err);
 
-        alert("❌ Failed To Load Project");
+        alert(err.message);
+
     }
+
 }
 
-// ================= ADD / UPDATE PROJECT =================
+// ===============================
+// SAVE PROJECT
+// ===============================
 form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    const originalText = submitBtn.innerHTML;
-
     submitBtn.disabled = true;
 
-    submitBtn.innerHTML =
-        `<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...`;
+    submitBtn.innerHTML = `
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Saving...
+    `;
 
     const projectData = {
 
-        title: document.getElementById("title").value,
+        title: titleInput.value,
 
-        description: document.getElementById("description").value,
+        description: descriptionInput.value,
 
-        techStack: document
-            .getElementById("tech")
-            .value
+        techStack: techInput.value
             .split(",")
             .map(item => item.trim())
             .filter(Boolean),
 
-        demoLink: document.getElementById("live").value,
+        demoLink: liveInput.value,
 
-        githubLink: document.getElementById("github").value,
+        githubLink: githubInput.value,
 
-        type: document.getElementById("type").value,
+        type: typeInput.value,
 
-        featured: document.getElementById("featured").checked
+        featured: featuredInput.checked
+
     };
+
+    const url = editingProjectId
+        ? `${API_URL}/${editingProjectId}`
+        : API_URL;
+
+    const method = editingProjectId
+        ? "PUT"
+        : "POST";
 
     try {
 
-        let res;
+        const res = await fetch(url, {
 
-        if (editingProjectId) {
+            method,
 
-            res = await fetch(
-                `${API_URL}/${editingProjectId}`,
-                {
-                    method: "PUT",
-                    headers: getHeaders(),
-                    body: JSON.stringify(projectData)
-                }
-            );
+            headers: getHeaders(),
 
-        } else {
+            body: JSON.stringify(projectData)
 
-            res = await fetch(
-                API_URL,
-                {
-                    method: "POST",
-                    headers: getHeaders(),
-                    body: JSON.stringify(projectData)
-                }
-            );
-        }
+        });
 
         const data = await res.json();
 
         if (!res.ok) {
-            throw new Error(
-                data.message || "Operation Failed"
-            );
+            throw new Error(data.message || "Operation Failed");
         }
 
         alert(
@@ -276,8 +256,10 @@ form.addEventListener("submit", async (e) => {
 
         editingProjectId = null;
 
-        submitBtn.innerHTML =
-            `<i class="fa-solid fa-plus"></i> Add Project`;
+        submitBtn.innerHTML = `
+            <i class="fa-solid fa-plus"></i>
+            Add Project
+        `;
 
         loadProjects();
 
@@ -285,43 +267,34 @@ form.addEventListener("submit", async (e) => {
 
         console.error(err);
 
-        alert(`❌ ${err.message}`);
+        alert(err.message);
 
     } finally {
 
         submitBtn.disabled = false;
 
-        if (!editingProjectId) {
-            submitBtn.innerHTML =
-                `<i class="fa-solid fa-plus"></i> Add Project`;
-        } else {
-            submitBtn.innerHTML = originalText;
-        }
     }
+
 });
 
-// ================= DELETE PROJECT =================
+// ===============================
+// DELETE PROJECT
+// ===============================
 async function deleteProject(id) {
 
-    const confirmDelete = confirm(
-        "⚠️ Are you sure you want to delete this project?"
-    );
-
-    if (!confirmDelete) return;
+    if (!confirm("Delete this project?")) return;
 
     try {
 
-        const res = await fetch(
-            `${API_URL}/${id}`,
-            {
-                method: "DELETE",
-                headers: getHeaders()
-            }
-        );
+        const res = await fetch(`${API_URL}/${id}`, {
 
-        if (!res.ok) {
-            throw new Error("Delete Failed");
-        }
+            method: "DELETE",
+
+            headers: getHeaders()
+
+        });
+
+        if (!res.ok) throw new Error("Delete Failed");
 
         alert("🗑️ Project Deleted");
 
@@ -331,26 +304,28 @@ async function deleteProject(id) {
 
         console.error(err);
 
-        alert("❌ Failed To Delete Project");
+        alert(err.message);
+
     }
+
 }
 
-// ================= TOGGLE FEATURED =================
+// ===============================
+// TOGGLE FEATURED
+// ===============================
 async function toggleFeatured(id) {
 
     try {
 
-        const res = await fetch(
-            `${API_URL}/feature/${id}`,
-            {
-                method: "PATCH",
-                headers: getHeaders()
-            }
-        );
+        const res = await fetch(`${API_URL}/feature/${id}`, {
 
-        if (!res.ok) {
-            throw new Error("Failed");
-        }
+            method: "PATCH",
+
+            headers: getHeaders()
+
+        });
+
+        if (!res.ok) throw new Error("Failed");
 
         loadProjects();
 
@@ -358,16 +333,20 @@ async function toggleFeatured(id) {
 
         console.error(err);
 
-        alert("❌ Failed To Update Featured Status");
+        alert(err.message);
+
     }
+
 }
 
-// ================= REFRESH =================
+// ===============================
+// REFRESH
+// ===============================
 function refreshProjects() {
     loadProjects();
 }
 
-// ================= INIT =================
-document.addEventListener("DOMContentLoaded", () => {
-    loadProjects();
-});
+// ===============================
+// INIT
+// ===============================
+document.addEventListener("DOMContentLoaded", loadProjects);
