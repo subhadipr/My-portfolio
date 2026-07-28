@@ -15,7 +15,7 @@ async function loadProjects() {
 
     try {
 
-        const projects = await apiRequest("/projects");
+        const projects = await apiRequest("/api/projects");
 
         console.log("✅ Projects Loaded:", projects);
 

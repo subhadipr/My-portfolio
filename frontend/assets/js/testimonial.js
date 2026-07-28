@@ -6,7 +6,7 @@ async function loadTestimonials() {
 
     try {
 
-     const testimonials = await apiRequest("/testimonial");
+        const testimonials = await apiRequest("/api/testimonial");
 
         if (!Array.isArray(testimonials) || testimonials.length === 0) {
 
@@ -53,4 +53,3 @@ async function loadTestimonials() {
 }
 
 document.addEventListener("DOMContentLoaded", loadTestimonials);
- 

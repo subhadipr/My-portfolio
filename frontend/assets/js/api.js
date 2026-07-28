@@ -40,7 +40,7 @@ async function apiRequest(endpoint, method = "GET", body = null) {
 
             alert("Session expired. Please login again.");
 
-            window.location.href = "/admin/login.html";
+           window.location.replace("/login.html");
 
             return null;
 
