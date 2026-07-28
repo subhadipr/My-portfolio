@@ -68,9 +68,15 @@ async function loadDashboardStats() {
         document.getElementById("totalOrders").textContent = orders.length;
 
 
-        // ===== BLOG =====
-        document.getElementById("totalBlogs").textContent = "0";
+        
+       // ===== BLOG =====
+        const blogRes = await fetch(`${BASE_URL}/api/blog`);
 
+        if (!blogRes.ok) throw new Error("Blogs API Failed");
+
+        const blogs = await blogRes.json();
+
+        document.getElementById("totalBlogs").textContent = blogs.length;
 
         // ===== TABLE =====
         renderRecentLeads(leads);
