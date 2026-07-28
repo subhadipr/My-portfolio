@@ -4,7 +4,43 @@
 const token = localStorage.getItem("adminToken");
 
 if (!token) {
-    window.location.href = "login.html";
+    window.location.replace("/login.html");
+    throw new Error("Unauthorized");
+}
+
+// ===============================
+// API HELPER
+// ===============================
+async function apiRequest(url, options = {}) {
+
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        ...(options.headers || {})
+    };
+
+   
+    if (!(options.body instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+    }
+
+    const response = await fetch(url, {
+        ...options,
+        headers
+    });
+
+    if (response.status === 401) {
+
+        alert("Session expired. Please login again.");
+
+        localStorage.removeItem("adminToken");
+
+        window.location.replace("/login.html");
+
+        throw new Error("Unauthorized");
+
+    }
+
+    return response;
 }
 
 // ===============================
@@ -34,7 +70,7 @@ async function loadTestimonials() {
 
     try {
 
-        const res = await fetch(API_URL);
+        const res = await apiRequest(API_URL);
 
         if (!res.ok) {
             throw new Error("Failed to load testimonials");
@@ -186,17 +222,10 @@ if (form) {
 
         try {
 
-            const res = await fetch(API_URL, {
-
-                method: "POST",
-
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-
-                body: formData
-
-            });
+            const res = await apiRequest(API_URL, {
+            method: "POST",
+         body: formData
+         });
 
             const data = await res.json();
 
@@ -233,15 +262,9 @@ async function deleteTestimonial(id) {
 
     try {
 
-        const res = await fetch(`${API_URL}/${id}`, {
-
-            method: "DELETE",
-
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-
-        });
+       const res = await apiRequest(`${API_URL}/${id}`, {
+    method: "DELETE"
+     });
 
         const data = await res.json();
 
@@ -260,6 +283,21 @@ async function deleteTestimonial(id) {
         alert(err.message);
 
     }
+
+}
+
+// ===============================
+// LOGOUT
+// ===============================
+function handleLogout() {
+
+    if (!confirm("Are you sure you want to logout?")) {
+        return;
+    }
+
+    localStorage.removeItem("adminToken");
+
+    window.location.replace("/login.html");
 
 }
 

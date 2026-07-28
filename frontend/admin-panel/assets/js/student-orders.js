@@ -4,7 +4,8 @@
 const token = localStorage.getItem("adminToken");
 
 if (!token) {
-    window.location.href = "login.html";
+    window.location.replace("/login.html");
+    throw new Error("Unauthorized");
 }
 
 // ===============================
@@ -295,9 +296,11 @@ async function deleteOrder(id) {
 // ===============================
 function handleLogout() {
 
+    if (!confirm("Are you sure you want to logout?")) return;
+
     localStorage.removeItem("adminToken");
 
-    window.location.href = "login.html";
+    window.location.replace("/login.html");
 
 }
 

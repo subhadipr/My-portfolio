@@ -4,7 +4,53 @@
 const token = localStorage.getItem("adminToken");
 
 if (!token) {
-    window.location.href = "../login.html";
+    window.location.replace("/login.html");
+    throw new Error("Unauthorized");
+}
+
+//api helper//
+
+async function apiRequest(url, options = {}) {
+
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        ...(options.headers || {})
+    };
+
+    if (!(options.body instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+    }
+
+    try {
+
+        const response = await fetch(url, {
+            ...options,
+            headers
+        });
+
+        if (response.status === 401) {
+
+            alert("Session expired. Please login again.");
+
+            localStorage.removeItem("adminToken");
+
+            window.location.replace("/login.html");
+
+            throw new Error("Unauthorized");
+        }
+
+        return response;
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Unable to connect to the server.");
+
+        throw error;
+
+    }
+
 }
 
 // ===============================
@@ -34,7 +80,7 @@ async function loadBlogs() {
 
     try {
 
-        const res = await fetch(API_URL);
+        const res = await apiRequest(API_URL);
 
         if (!res.ok) {
             throw new Error("Failed to load blogs");
@@ -143,21 +189,13 @@ if (form) {
 
         try {
 
-            const res = await fetch(API_URL, {
+           const res = await apiRequest(API_URL, {
 
-                method: "POST",
+    method: "POST",
 
-                headers: {
+    body: JSON.stringify(blogData)
 
-                    "Content-Type": "application/json",
-
-                    Authorization: `Bearer ${token}`
-
-                },
-
-                body: JSON.stringify(blogData)
-
-            });
+       });
 
             const data = await res.json();
 
@@ -196,17 +234,11 @@ async function deleteBlog(id) {
 
     try {
 
-        const res = await fetch(`${API_URL}/${id}`, {
+       const res = await apiRequest(`${API_URL}/${id}`, {
 
-            method: "DELETE",
+    method: "DELETE"
 
-            headers: {
-
-                Authorization: `Bearer ${token}`
-
-            }
-
-        });
+      });
 
         const data = await res.json();
 
@@ -228,6 +260,20 @@ async function deleteBlog(id) {
 
     }
 
+}
+
+// ===============================
+// LOGOUT
+// ===============================
+function handleLogout() {
+
+    if (!confirm("Are you sure you want to logout?")) {
+        return;
+    }
+
+    localStorage.removeItem("adminToken");
+
+    window.location.replace("/login.html");
 }
 
 // ===============================

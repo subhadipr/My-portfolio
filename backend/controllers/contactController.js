@@ -1,82 +1,153 @@
 const Contact = require("../models/Contact");
 const { errorLogger } = require("../utils/logger");
 
-// Create Contact
+// ===============================
+// CREATE CONTACT
+// ===============================
 exports.createContact = async (req, res) => {
-  try {
+    try {
 
-    const data = await Contact.create(req.body);
-    res.status(201).json(data);
+        const data = await Contact.create(req.body);
 
-  } catch (error) {
+        res.status(201).json(data);
 
-    errorLogger(error.message);
+    } catch (error) {
 
-    res.status(500).json({
-      message: "Failed to create contact"
-    });
+        errorLogger(error.message);
 
-  }
+        res.status(500).json({
+            message: "Failed to create contact"
+        });
+
+    }
 };
 
-// Get All Contacts
+// ===============================
+// GET ALL CONTACTS
+// ===============================
 exports.getContacts = async (req, res) => {
-  try {
+    try {
 
-    const data = await Contact.find().sort({ createdAt: -1 });
-    res.json(data);
+        const data = await Contact.find().sort({
+            createdAt: -1
+        });
 
-  } catch (error) {
+        res.json(data);
 
-    errorLogger(error.message);
+    } catch (error) {
 
-    res.status(500).json({
-      message: "Failed to fetch contacts"
-    });
+        errorLogger(error.message);
 
-  }
+        res.status(500).json({
+            message: "Failed to fetch contacts"
+        });
+
+    }
 };
 
-// Update Contact Status
+// ===============================
+// GET SINGLE CONTACT
+// ===============================
+exports.getContactById = async (req, res) => {
+
+    try {
+
+        const data = await Contact.findById(req.params.id);
+
+        if (!data) {
+
+            return res.status(404).json({
+                message: "Contact not found"
+            });
+
+        }
+
+        res.json(data);
+
+    } catch (error) {
+
+        errorLogger(error.message);
+
+        res.status(500).json({
+            message: "Failed to fetch contact"
+        });
+
+    }
+
+};
+
+// ===============================
+// UPDATE STATUS
+// ===============================
 exports.updateContactStatus = async (req, res) => {
-  try {
 
-    const data = await Contact.findByIdAndUpdate(
-      req.params.id,
-      { status: req.body.status },
-      { new: true }
-    );
+    try {
 
-    res.json(data);
+        const data = await Contact.findByIdAndUpdate(
 
-  } catch (error) {
+            req.params.id,
 
-    errorLogger(error.message);
+            {
+                status: req.body.status
+            },
 
-    res.status(500).json({
-      message: "Failed to update contact"
-    });
+            {
+                new: true
+            }
 
-  }
+        );
+
+        if (!data) {
+
+            return res.status(404).json({
+                message: "Contact not found"
+            });
+
+        }
+
+        res.json(data);
+
+    } catch (error) {
+
+        errorLogger(error.message);
+
+        res.status(500).json({
+            message: "Failed to update contact"
+        });
+
+    }
+
 };
 
-// Delete Contact
+// ===============================
+// DELETE CONTACT
+// ===============================
 exports.deleteContact = async (req, res) => {
-  try {
 
-    await Contact.findByIdAndDelete(req.params.id);
+    try {
 
-    res.json({
-      message: "Contact Deleted"
-    });
+        const data = await Contact.findByIdAndDelete(req.params.id);
 
-  } catch (error) {
+        if (!data) {
 
-    errorLogger(error.message);
+            return res.status(404).json({
+                message: "Contact not found"
+            });
 
-    res.status(500).json({
-      message: "Failed to delete contact"
-    });
+        }
 
-  }
+        res.json({
+            message: "Contact deleted successfully"
+        });
+
+    } catch (error) {
+
+        errorLogger(error.message);
+
+        res.status(500).json({
+            message: "Failed to delete contact"
+        });
+
+    }
+
 };

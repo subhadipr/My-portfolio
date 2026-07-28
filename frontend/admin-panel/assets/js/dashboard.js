@@ -4,7 +4,9 @@
 const token = localStorage.getItem("adminToken");
 
 if (!token) {
-    window.location.href = "../login.html";
+
+    window.location.replace("/login.html");
+
 }
 
 // ===============================
@@ -16,13 +18,17 @@ const BASE_URL = "https://my-portfolio-92wy.onrender.com";
 // 🚪 LOGOUT
 // ===============================
 document.querySelector(".logout-btn").addEventListener("click", () => {
+
     localStorage.removeItem("adminToken");
-    window.location.href = "../login.html";
+
+    
+    window.location.replace("/login.html");
+
 });
 
 // ===============================
 // 📊 LOAD DASHBOARD DATA
-// ===============================
+// =============================== 
 async function loadDashboardStats() {
 
     try {

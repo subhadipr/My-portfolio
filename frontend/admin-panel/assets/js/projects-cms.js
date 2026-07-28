@@ -4,7 +4,7 @@
 const token = localStorage.getItem("adminToken");
 
 if (!token) {
-    window.location.href = "login.html";
+    window.location.replace("/login.html");
 }
 
 // ===============================
@@ -336,6 +336,17 @@ async function toggleFeatured(id) {
         alert(err.message);
 
     }
+
+}
+
+// ===============================
+// 🚪 LOGOUT
+// ===============================
+function handleLogout() {
+
+    localStorage.removeItem("adminToken");
+
+    window.location.replace("/login.html");
 
 }
 
