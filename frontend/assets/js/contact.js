@@ -23,11 +23,11 @@ if (contactForm) {
 
         try {
 
-            const res = await apiRequest(
-                "/contact",
+           const res = await apiRequest(
+                "/api/contact",
                 "POST",
-                data
-            );
+                 data
+                );
 
             alert("✅ Inquiry Sent Successfully");
 
