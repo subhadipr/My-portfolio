@@ -6,7 +6,9 @@ const priceInput = document.getElementById("orderPrice");
 
 const closeBtn = document.getElementById("closeOrderModal");
 
-// Open Modal
+// ===============================
+// OPEN MODAL
+// ===============================
 document.querySelectorAll(".studentOrderBtn").forEach(btn => {
 
     btn.addEventListener("click", () => {
@@ -20,12 +22,16 @@ document.querySelectorAll(".studentOrderBtn").forEach(btn => {
 
 });
 
-// Close Modal
+// ===============================
+// CLOSE MODAL
+// ===============================
 closeBtn.addEventListener("click", () => {
     modal.style.display = "none";
 });
 
-// Submit Order
+// ===============================
+// SUBMIT ORDER
+// ===============================
 form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
@@ -34,14 +40,17 @@ form.addEventListener("submit", async (e) => {
 
     try {
 
-        await apiRequest("/student/order", "POST", data);
+        await apiRequest("/api/student/orders", "POST", data);
 
-        alert("✅ Order Submitted");
+        alert("✅ Order Submitted Successfully.");
 
         modal.style.display = "none";
+
         form.reset();
 
-    } catch {
+    } catch (error) {
+
+        console.error(error);
 
         alert("❌ Failed to Submit Order");
 
