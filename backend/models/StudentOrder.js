@@ -1,48 +1,45 @@
 const mongoose = require("mongoose");
 
 const StudentOrderSchema = new mongoose.Schema(
-  {
-    studentName: {
-      type: String,
-      required: [true, "Please provide student name"],
-      trim: true,
+{
+    name: {
+        type: String,
+        required: true
     },
+
     email: {
-      type: String,
-      required: [true, "Please provide email"],
-      lowercase: true,
-      trim: true,
+        type: String,
+        required: true
     },
-    college: {
-      type: String,
-      required: [true, "Please provide college name"],
+
+    phone: {
+        type: String,
+        required: true
     },
-    project: {
-      type: String,
-      required: [true, "Project description is required"],
+
+    plan: {
+        type: String,
+        required: true
     },
-    deadline: {
-      type: Date,
-      required: [true, "Deadline is required"],
+
+    price: {
+        type: String,
+        required: true
     },
-    budget: {
-      type: String,
-      default: "-",
+
+    message: {
+        type: String,
+        default: ""
     },
+
     status: {
-      type: String,
-      enum: ["new", "pending", "completed", "cancelled"],
-      default: "new",
-    },
-   
-    handledBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  },
-  {
-    timestamps: true, 
-  }
-);
+        type: String,
+        enum: ["new", "pending", "completed", "cancelled"],
+        default: "new"
+    }
+},
+{
+    timestamps: true
+});
 
 module.exports = mongoose.model("StudentOrder", StudentOrderSchema);
