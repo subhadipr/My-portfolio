@@ -234,17 +234,23 @@ if (editForm) {
 
         const id = document.getElementById("editId").value;
 
-        const updatedData = {
+       const updatedData = {
 
-            studentName: document.getElementById("editName").value,
-            email: document.getElementById("editEmail").value,
-            college: document.getElementById("editCollege").value,
-            project: document.getElementById("editProject").value,
-            deadline: document.getElementById("editDeadline").value,
-            budget: document.getElementById("editBudget").value,
-            status: document.getElementById("editStatus").value
+    studentName: document.getElementById("editName").value.trim(),
 
-        };
+    email: document.getElementById("editEmail").value.trim(),
+
+    college: document.getElementById("editCollege").value.trim(),
+
+    project: document.getElementById("editProject").value.trim(),
+
+    deadline: document.getElementById("editDeadline").value,
+
+    budget: document.getElementById("editBudget").value.trim(),
+
+    status: document.getElementById("editStatus").value
+
+};
 
         const res = await apiCall(`${API_URL}/${id}`, {
 

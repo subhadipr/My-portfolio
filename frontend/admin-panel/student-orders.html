@@ -71,18 +71,87 @@
         <section class="table-section">
             <div class="table-container">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Student</th>
-                            <th>Email</th>
-                            <th>College</th>
-                            <th>Project</th>
-                            <th>Deadline</th>
-                            <th>Budget</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                    <form id="editForm">
+
+    <input type="hidden" id="editId">
+
+    <div class="form-row">
+
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="editName" required>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="editEmail" required>
+        </div>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group">
+            <label>Phone</label>
+            <input type="text" id="editPhone">
+        </div>
+
+        <div class="form-group">
+            <label>Plan</label>
+            <input type="text" id="editPlan">
+        </div>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group">
+            <label>Price</label>
+            <input type="text" id="editPrice">
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+
+            <select id="editStatus">
+                <option value="new">New</option>
+                <option value="pending">Pending</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label>Message</label>
+
+        <textarea id="editMessage" rows="4"></textarea>
+
+    </div>
+
+    <div class="modal-footer">
+
+        <button type="button"
+        class="cancel-btn"
+        onclick="closeEditModal()">
+
+        Cancel
+
+        </button>
+
+        <button
+        type="submit"
+        class="save-btn">
+
+        Update
+
+        </button>
+
+    </div>
+
+</form>
 
                     <!-- Dynamic Data Body -->
                     <tbody id="orderTable">
