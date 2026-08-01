@@ -11,7 +11,7 @@ async function loadStudentProjects() {
     try {
 
         // ✅ FIXED HERE
-        const projects = await apiRequest("/student/projects");
+       const projects = await apiRequest("/api/projects");
 
         // Empty Check
         if (!Array.isArray(projects) || projects.length === 0) {

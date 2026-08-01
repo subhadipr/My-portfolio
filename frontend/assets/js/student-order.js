@@ -40,7 +40,7 @@ form.addEventListener("submit", async (e) => {
 
     try {
 
-        await apiRequest("/api/student/orders", "POST", data);
+        await apiRequest("/api/student/order", "POST", data);
 
         alert("✅ Order Submitted Successfully.");
 
